@@ -1,5 +1,5 @@
 mountpoints:
   /:
-    url: "https://author-p169803-e1812709.adobeaemcloud.com/bin/franklin.delivery/salvamolaso/movistar-poc-aem-eds/main"
+    url: "https://author-p151412-e1619656.adobeaemcloud.com/bin/franklin.delivery/yash-bhatia/bpcl-demo/main"
     type: "markup"
     suffix: ".html"
