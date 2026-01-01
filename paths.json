@@ -1,6 +1,7 @@
 {
   "mappings": [
 <<<<<<< HEAD
+<<<<<<< HEAD
     "/content/aem-boilerplate/:/",
     "/content/aem-boilerplate/configuration:/.helix/config.json",
     "/content/aem-boilerplate/metadata:/metadata.json"
@@ -15,4 +16,11 @@
     "/content/dam/"
 >>>>>>> d03c333 (Initial commit)
   ]
+=======
+    "/content/bpcl-eds/:/",
+    "/content/bpcl-eds/configuration:/.helix/config.json",
+    "/content/bpcl-eds/metadata:/metadata.json"
+  ],
+  "includes": ["/content/bpcl-eds/", "/content/dam/"]
+>>>>>>> 6e81f51 (added paths.json and fstab.yaml)
 }
