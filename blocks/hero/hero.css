@@ -1,37 +1,180 @@
+/* Hero Block Styles */
+
 .hero-container .hero-wrapper {
-  max-width: unset;
-  padding: 0;
+    max-width: unset;
+    padding: 0;
 }
 
 .hero {
-  position: relative;
-  padding: 40px 24px;
-  min-height: 300px;
+    position: relative;
+    padding: 60px 24px;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero > div {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+.hero h1,
+.hero h2,
+.hero h3 {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .hero h1 {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  color: var(--background-color);
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    color: #fff;
+    font-size: 20px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .hero picture {
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  object-fit: cover;
-  box-sizing: border-box;
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    object-fit: cover;
+    box-sizing: border-box;
 }
 
 .hero img {
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
 }
 
+/* Hero Buttons */
+.hero .button-container {
+    margin-top: 30px;
+}
+
+.hero a.button {
+    display: inline-block;
+    padding: 14px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    margin: 5px 10px;
+}
+
+/* Primary Button */
+.hero a.button:not(.secondary) {
+    background-color: var(--bpcl-yellow, #ffc72c);
+    color: var(--bpcl-dark-blue, #003d73);
+    border: 2px solid var(--bpcl-yellow, #ffc72c);
+}
+
+.hero a.button:not(.secondary):hover {
+    background-color: #e6b326;
+    border-color: #e6b326;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Secondary Button */
+.hero a.button.secondary {
+    background-color: transparent;
+    color: #fff;
+    border: 2px solid #fff;
+}
+
+.hero a.button.secondary:hover {
+    background-color: #fff;
+    color: var(--bpcl-dark-blue, #003d73);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Hero Buttons Wrapper */
+.hero .hero-buttons {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.hero .hero-buttons .button-container {
+    margin: 0;
+}
+
+/* Responsive Styles */
 @media (width >= 900px) {
-  .hero {
-    padding: 40px 32px;
-  }
+    .hero {
+        padding: 80px 32px;
+        min-height: 500px;
+    }
+
+    .hero h1 {
+        font-size: 56px;
+    }
+
+    .hero p {
+        font-size: 22px;
+    }
+}
+
+@media (width < 768px) {
+    .hero {
+        padding: 40px 20px;
+        min-height: 350px;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .hero a.button {
+        padding: 12px 24px;
+        font-size: 14px;
+    }
+}
+
+@media (width < 480px) {
+    .hero {
+        padding: 30px 15px;
+        min-height: 300px;
+    }
+
+    .hero h1 {
+        font-size: 26px;
+    }
+
+    .hero p {
+        font-size: 14px;
+    }
+
+    .hero .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hero a.button {
+        width: 100%;
+        max-width: 250px;
+        text-align: center;
+    }
 }

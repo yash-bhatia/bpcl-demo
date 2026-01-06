@@ -1,119 +1,352 @@
-import { createOptimizedPicture } from "../../scripts/aem.js";
-import { moveInstrumentation } from "../../scripts/scripts.js";
-import createSlider from "../../scripts/slider.js";
+/**
+ * BPCL Carousel Block
+ * A full-width image carousel with navigation arrows, dots, and auto-play functionality
+ */
 
-function setCarouselItems(number) {
-  document
-    .querySelector(".carousel > ul")
-    ?.style.setProperty("--items-per-view", number);
+const AUTOPLAY_INTERVAL = 5000; // 5 seconds between slides
+
+/**
+ * Creates navigation arrow SVG
+ * @param {string} direction - 'prev' or 'next'
+ * @returns {string} SVG markup
+ */
+function createArrowSVG(direction) {
+  if (direction === "prev") {
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: none; stroke: #ffffff; stroke-width: 2.5;">
+      <path d="M15 6 L9 12 L15 18" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>`;
+  }
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: none; stroke: #ffffff; stroke-width: 2.5;">
+    <path d="M9 6 L15 12 L9 18" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`;
 }
 
-export default function decorate(block) {
-  let i = 0;
-  setCarouselItems(2);
-  const slider = document.createElement("ul");
-  const leftContent = document.createElement("div");
-  [...block.children].forEach((row) => {
-    if (i > 3) {
-      const li = document.createElement("li");
+/**
+ * Creates pause/play button SVG icons
+ * @returns {string} SVG markup for both icons
+ */
+function createControlSVG() {
+  return `
+    <svg class="pause-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: #ffffff;">
+      <rect x="6" y="5" width="4" height="14" rx="1"/>
+      <rect x="14" y="5" width="4" height="14" rx="1"/>
+    </svg>
+    <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: #ffffff;">
+      <polygon points="8,5 19,12 8,19"/>
+    </svg>
+  `;
+}
 
-      // Read card style from the third div (index 2)
-      const styleDiv = row.children[2];
-      const styleParagraph = styleDiv?.querySelector("p");
-      const cardStyle = styleParagraph?.textContent?.trim() || "default";
-      if (cardStyle && cardStyle !== "default") {
-        li.className = cardStyle;
-      }
+/**
+ * Carousel class to manage carousel functionality
+ */
+class Carousel {
+  constructor(block) {
+    this.block = block;
+    this.currentSlide = 0;
+    this.isPlaying = true;
+    this.autoplayTimer = null;
+    this.slides = [];
+    this.dots = [];
+    this.wasPlayingBeforeHover = false;
 
-      // Read CTA style from the fourth div (index 3)
-      const ctaDiv = row.children[3];
-      const ctaParagraph = ctaDiv?.querySelector("p");
-      const ctaStyle = ctaParagraph?.textContent?.trim() || "default";
+    this.init();
+  }
 
-      moveInstrumentation(row, li);
-      while (row.firstElementChild) li.append(row.firstElementChild);
+  init() {
+    // Build carousel structure from existing content
+    this.buildCarousel();
 
-      // Process the li children to identify and style them correctly
-      [...li.children].forEach((div, index) => {
-        // First div (index 0) - Image
-        if (index === 0) {
-          div.className = "cards-card-image";
-        }
-        // Second div (index 1) - Content with button
-        else if (index === 1) {
-          div.className = "cards-card-body";
-        }
-        // Third div (index 2) - Card style configuration
-        else if (index === 2) {
-          div.className = "cards-config";
-          const p = div.querySelector("p");
-          if (p) {
-            p.style.display = "none"; // Hide the configuration text
-          }
-        }
-        // Fourth div (index 3) - CTA style configuration
-        else if (index === 3) {
-          div.className = "cards-config";
-          const p = div.querySelector("p");
-          if (p) {
-            p.style.display = "none"; // Hide the configuration text
-          }
-        }
-        // Any other divs
-        else {
-          div.className = "cards-card-body";
-        }
-      });
-
-      // Apply CTA styles to button containers
-      const buttonContainers = li.querySelectorAll("p.button-container");
-      buttonContainers.forEach((buttonContainer) => {
-        // Remove any existing CTA classes
-        buttonContainer.classList.remove(
-          "default",
-          "cta-button",
-          "cta-button-secondary",
-          "cta-button-dark",
-          "cta-default"
-        );
-        // Add the correct CTA class
-        buttonContainer.classList.add(ctaStyle);
-      });
-
-      slider.append(li);
-    } else {
-      if (row.firstElementChild.firstElementChild) {
-        leftContent.append(row.firstElementChild.firstElementChild);
-      }
-      if (row.firstElementChild) {
-        leftContent.append(row.firstElementChild.firstElementChild || "");
-      }
-      leftContent.className = "default-content-wrapper";
+    // Only setup if we have slides
+    if (this.slides.length > 0) {
+      this.setupEventListeners();
+      this.startAutoplay();
     }
-    i += 1;
-  });
+  }
 
-  slider.querySelectorAll("picture > img").forEach((img) => {
-    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [
-      { width: "750" },
-    ]);
-    moveInstrumentation(img, optimizedPic.querySelector("img"));
-    img.closest("picture").replaceWith(optimizedPic);
-  });
+  buildCarousel() {
+    // Get all rows/items from the block - each row is a slide
+    const rows = [...this.block.children];
 
-  // Accessibility: preserve visual style but expose proper heading level to AT
-  // Use aria-level so we don't change font sizes. Default to level 3, or infer from data-heading-level on the block.
-  const base = parseInt(block?.dataset?.headingLevel, 10);
-  const ariaLevel = Number.isFinite(base)
-    ? Math.min(Math.max(base, 1) + 1, 6)
-    : 3;
-  slider.querySelectorAll("h4,h5,h6").forEach((node) => {
-    node.setAttribute("role", "heading");
-    node.setAttribute("aria-level", String(ariaLevel));
-  });
+    if (rows.length === 0) return;
 
-  block.textContent = "";
-  block.parentNode.parentNode.prepend(leftContent);
-  block.append(slider);
-  createSlider(block);
+    // Create main container
+    const slidesContainer = document.createElement("div");
+    slidesContainer.className = "carousel-slides-container";
+
+    const slidesWrapper = document.createElement("div");
+    slidesWrapper.className = "carousel-slides";
+
+    // Process each row as a slide - only include rows with images
+    let slideIndex = 0;
+    rows.forEach((row) => {
+      // Find the picture/image in the row
+      const picture = row.querySelector("picture");
+      const img = row.querySelector("img");
+
+      // Skip rows without images
+      if (!picture && !img) {
+        return;
+      }
+
+      const slide = document.createElement("div");
+      slide.className = "carousel-slide";
+      slide.dataset.index = slideIndex;
+
+      if (picture) {
+        slide.appendChild(picture.cloneNode(true));
+      } else if (img) {
+        slide.appendChild(img.cloneNode(true));
+      }
+
+      slidesWrapper.appendChild(slide);
+      this.slides.push(slide);
+      slideIndex += 1;
+    });
+
+    slidesContainer.appendChild(slidesWrapper);
+
+    // Clear original content and add new structure
+    this.block.textContent = "";
+    this.block.appendChild(slidesContainer);
+
+    this.slidesContainer = slidesContainer;
+    this.slidesWrapper = slidesWrapper;
+
+    // Only add controls if we have more than 1 slide
+    if (this.slides.length > 1) {
+      this.addNavigationControls();
+    }
+
+    // Always add the brand border
+    this.addBrandBorder();
+  }
+
+  addNavigationControls() {
+    // Create navigation arrows
+    const prevBtn = document.createElement("button");
+    prevBtn.className = "carousel-nav carousel-nav-prev";
+    prevBtn.setAttribute("aria-label", "Previous slide");
+    prevBtn.innerHTML = createArrowSVG("prev");
+    this.slidesContainer.appendChild(prevBtn);
+    this.prevBtn = prevBtn;
+
+    const nextBtn = document.createElement("button");
+    nextBtn.className = "carousel-nav carousel-nav-next";
+    nextBtn.setAttribute("aria-label", "Next slide");
+    nextBtn.innerHTML = createArrowSVG("next");
+    this.slidesContainer.appendChild(nextBtn);
+    this.nextBtn = nextBtn;
+
+    // Create dots
+    const dotsContainer = document.createElement("div");
+    dotsContainer.className = "carousel-dots";
+
+    this.slides.forEach((_, index) => {
+      const dot = document.createElement("button");
+      dot.className = `carousel-dot${index === 0 ? " active" : ""}`;
+      dot.setAttribute("aria-label", `Go to slide ${index + 1}`);
+      dot.dataset.index = index;
+      dotsContainer.appendChild(dot);
+      this.dots.push(dot);
+    });
+
+    this.slidesContainer.appendChild(dotsContainer);
+
+    // Create pause/play control
+    const controlBtn = document.createElement("button");
+    controlBtn.className = "carousel-control";
+    controlBtn.setAttribute("aria-label", "Pause carousel");
+    controlBtn.innerHTML = createControlSVG();
+    this.slidesContainer.appendChild(controlBtn);
+    this.controlBtn = controlBtn;
+  }
+
+  addBrandBorder() {
+    const brandBorder = document.createElement("div");
+    brandBorder.className = "carousel-brand-border";
+    brandBorder.innerHTML = `
+      <div class="carousel-brand-border-blue"></div>
+      <div class="carousel-brand-border-yellow"></div>
+      <div class="carousel-brand-border-green"></div>
+    `;
+    this.block.appendChild(brandBorder);
+  }
+
+  setupEventListeners() {
+    // Previous button
+    if (this.prevBtn) {
+      this.prevBtn.addEventListener("click", () => {
+        this.prevSlide();
+        this.resetAutoplay();
+      });
+    }
+
+    // Next button
+    if (this.nextBtn) {
+      this.nextBtn.addEventListener("click", () => {
+        this.nextSlide();
+        this.resetAutoplay();
+      });
+    }
+
+    // Dots
+    this.dots.forEach((dot) => {
+      dot.addEventListener("click", () => {
+        const index = parseInt(dot.dataset.index, 10);
+        this.goToSlide(index);
+        this.resetAutoplay();
+      });
+    });
+
+    // Pause/Play control
+    if (this.controlBtn) {
+      this.controlBtn.addEventListener("click", () => {
+        this.toggleAutoplay();
+      });
+    }
+
+    // Pause on hover
+    this.block.addEventListener("mouseenter", () => {
+      if (this.isPlaying) {
+        this.pauseAutoplay();
+        this.wasPlayingBeforeHover = true;
+      }
+    });
+
+    this.block.addEventListener("mouseleave", () => {
+      if (this.wasPlayingBeforeHover) {
+        this.startAutoplay();
+        this.wasPlayingBeforeHover = false;
+      }
+    });
+
+    // Touch/swipe support
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    this.block.addEventListener(
+      "touchstart",
+      (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      },
+      { passive: true }
+    );
+
+    this.block.addEventListener(
+      "touchend",
+      (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        this.handleSwipe(touchStartX, touchEndX);
+      },
+      { passive: true }
+    );
+
+    // Keyboard navigation
+    this.block.setAttribute("tabindex", "0");
+    this.block.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") {
+        this.prevSlide();
+        this.resetAutoplay();
+      } else if (e.key === "ArrowRight") {
+        this.nextSlide();
+        this.resetAutoplay();
+      } else if (e.key === " ") {
+        e.preventDefault();
+        this.toggleAutoplay();
+      }
+    });
+  }
+
+  handleSwipe(startX, endX) {
+    const threshold = 50;
+    const diff = startX - endX;
+
+    if (Math.abs(diff) > threshold) {
+      if (diff > 0) {
+        this.nextSlide();
+      } else {
+        this.prevSlide();
+      }
+      this.resetAutoplay();
+    }
+  }
+
+  goToSlide(index) {
+    if (index < 0) {
+      this.currentSlide = this.slides.length - 1;
+    } else if (index >= this.slides.length) {
+      this.currentSlide = 0;
+    } else {
+      this.currentSlide = index;
+    }
+
+    // Update slide position
+    const offset = -this.currentSlide * 100;
+    this.slidesWrapper.style.transform = `translateX(${offset}%)`;
+
+    // Update dots
+    this.dots.forEach((dot, i) => {
+      dot.classList.toggle("active", i === this.currentSlide);
+    });
+  }
+
+  nextSlide() {
+    this.goToSlide(this.currentSlide + 1);
+  }
+
+  prevSlide() {
+    this.goToSlide(this.currentSlide - 1);
+  }
+
+  startAutoplay() {
+    if (this.slides.length <= 1) return;
+
+    this.isPlaying = true;
+    if (this.controlBtn) {
+      this.controlBtn.classList.remove("paused");
+      this.controlBtn.setAttribute("aria-label", "Pause carousel");
+    }
+
+    this.autoplayTimer = setInterval(() => {
+      this.nextSlide();
+    }, AUTOPLAY_INTERVAL);
+  }
+
+  pauseAutoplay() {
+    this.isPlaying = false;
+    if (this.controlBtn) {
+      this.controlBtn.classList.add("paused");
+      this.controlBtn.setAttribute("aria-label", "Play carousel");
+    }
+
+    if (this.autoplayTimer) {
+      clearInterval(this.autoplayTimer);
+      this.autoplayTimer = null;
+    }
+  }
+
+  toggleAutoplay() {
+    if (this.isPlaying) {
+      this.pauseAutoplay();
+    } else {
+      this.startAutoplay();
+    }
+  }
+
+  resetAutoplay() {
+    if (this.isPlaying) {
+      this.pauseAutoplay();
+      this.startAutoplay();
+    }
+  }
+}
+
+/**
+ * Decorates the carousel block
+ * @param {Element} block The carousel block element
+ */
+export default function decorate(block) {
+  // eslint-disable-next-line no-new
+  new Carousel(block);
 }
