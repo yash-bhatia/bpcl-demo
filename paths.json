@@ -4,5 +4,11 @@
     "/content/bpcl-eds/configuration:/.helix/config.json",
     "/content/bpcl-eds/metadata:/metadata.json"
   ],
-  "includes": ["/content/bpcl-eds/", "/content/dam/"]
+  "includes": [
+    "/content/bpcl-eds/",
+    "/content/dam/",
+    "/content/forms/af/",
+    "/adobe/forms/af/",
+    "/adobe/assets/"
+  ]
 }
