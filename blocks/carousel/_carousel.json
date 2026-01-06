@@ -1,0 +1,112 @@
+{
+  "definitions": [
+    {
+      "title": "Carousel",
+      "id": "carousel",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "name": "Carousel",
+              "model": "carousel"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Carousel Slide",
+      "id": "carousel-slide",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "name": "Carousel Slide",
+              "model": "carousel-slide"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "carousel",
+      "fields": [
+        {
+          "component": "number",
+          "name": "autoplayInterval",
+          "label": "Autoplay Interval (ms)",
+          "valueType": "number",
+          "description": "Time in milliseconds between slides. Default is 5000 (5 seconds)"
+        },
+        {
+          "component": "boolean",
+          "name": "showDots",
+          "label": "Show Dots Navigation",
+          "valueType": "boolean",
+          "description": "Show dot indicators at the bottom"
+        },
+        {
+          "component": "boolean",
+          "name": "showArrows",
+          "label": "Show Arrow Navigation",
+          "valueType": "boolean",
+          "description": "Show left/right navigation arrows"
+        }
+      ]
+    },
+    {
+      "id": "carousel-slide",
+      "fields": [
+        {
+          "component": "reference",
+          "name": "image",
+          "label": "Slide Image",
+          "valueType": "string",
+          "multi": false,
+          "description": "Select the slide image"
+        },
+        {
+          "component": "text",
+          "name": "altText",
+          "label": "Image Alt Text",
+          "valueType": "string",
+          "description": "Alternative text for the image"
+        },
+        {
+          "component": "text",
+          "name": "title",
+          "label": "Slide Title",
+          "valueType": "string",
+          "description": "Optional title text overlay"
+        },
+        {
+          "component": "text",
+          "name": "subtitle",
+          "label": "Slide Subtitle",
+          "valueType": "string",
+          "description": "Optional subtitle text overlay"
+        },
+        {
+          "component": "aem-content",
+          "name": "link",
+          "label": "Slide Link",
+          "valueType": "string",
+          "description": "Optional link for the slide"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "carousel",
+      "components": [
+        "carousel-slide"
+      ]
+    }
+  ]
+}
+

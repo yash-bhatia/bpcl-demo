@@ -1,268 +1,551 @@
-/* header and nav layout */
+/* BPCL Header Styles */
+
+/* CSS Variables for BPCL Brand */
+:root {
+    --bpcl-primary-blue: #005baa;
+    --bpcl-yellow: #ffc72c;
+    --bpcl-green: #009639;
+    --bpcl-orange: #f15a22;
+    --bpcl-dark-blue: #003d73;
+    --bpcl-light-gray: #f5f5f5;
+    --nav-height: 140px;
+}
+
+/* Header Container */
 header .nav-wrapper {
-  background-color: var(--background-color);
-  width: 100%;
-  z-index: 2;
-  position: fixed;
+    background-color: var(--background-color);
+    width: 100%;
+    z-index: 100;
+    position: fixed;
+    top: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 header nav {
-  box-sizing: border-box;
-  display: grid;
-  grid-template:
-    'hamburger brand tools' var(--nav-height)
-    'sections sections sections' 1fr / auto 1fr auto;
-  align-items: center;
-  gap: 0 24px;
-  margin: auto;
-  max-width: 1248px;
-  height: var(--nav-height);
-  padding: 0 24px;
-  font-family: var(--body-font-family);
-}
-
-header nav[aria-expanded='true'] {
-  grid-template:
-    'hamburger brand' var(--nav-height)
-    'sections sections' 1fr
-    'tools tools' var(--nav-height) / auto 1fr;
-  overflow-y: auto;
-  min-height: 100dvh;
-}
-
-@media (width >= 900px) {
-  header nav {
-    display: flex;
-    justify-content: space-between;
-    gap: 0 32px;
-    max-width: 1264px;
-    padding: 0 32px;
-  }
-
-  header nav[aria-expanded='true'] {
-    min-height: 0;
-    overflow: visible;
-  }
+    box-sizing: border-box;
+    margin: auto;
+    font-family: var(--body-font-family);
 }
 
 header nav p {
-  margin: 0;
-  line-height: 1;
+    margin: 0;
+    line-height: 1;
 }
 
 header nav a:any-link {
-  color: currentcolor;
+    color: currentcolor;
+    text-decoration: none;
 }
 
-/* hamburger */
-header nav .nav-hamburger {
-  grid-area: hamburger;
-  height: 22px;
-  display: flex;
-  align-items: center;
+header nav a:hover {
+    text-decoration: none;
 }
 
-header nav .nav-hamburger button {
-  height: 22px;
-  margin: 0;
-  border: 0;
-  border-radius: 0;
-  padding: 0;
-  background-color: var(--background-color);
-  color: inherit;
-  overflow: initial;
-  text-overflow: initial;
-  white-space: initial;
-}
-
-header nav .nav-hamburger-icon,
-header nav .nav-hamburger-icon::before,
-header nav .nav-hamburger-icon::after {
-  box-sizing: border-box;
-  display: block;
-  position: relative;
-  width: 20px;
-}
-
-header nav .nav-hamburger-icon::before,
-header nav .nav-hamburger-icon::after {
-  content: '';
-  position: absolute;
-  background: currentcolor;
-}
-
-header nav[aria-expanded='false'] .nav-hamburger-icon,
-header nav[aria-expanded='false'] .nav-hamburger-icon::before,
-header nav[aria-expanded='false'] .nav-hamburger-icon::after {
-  height: 2px;
-  border-radius: 2px;
-  background: currentcolor;
-}
-
-header nav[aria-expanded='false'] .nav-hamburger-icon::before {
-  top: -6px;
-}
-
-header nav[aria-expanded='false'] .nav-hamburger-icon::after {
-  top: 6px;
-}
-
-header nav[aria-expanded='true'] .nav-hamburger-icon {
-  height: 22px;
-}
-
-header nav[aria-expanded='true'] .nav-hamburger-icon::before,
-header nav[aria-expanded='true'] .nav-hamburger-icon::after {
-  top: 3px;
-  left: 1px;
-  transform: rotate(45deg);
-  transform-origin: 2px 1px;
-  width: 24px;
-  height: 2px;
-  border-radius: 2px;
-}
-
-header nav[aria-expanded='true'] .nav-hamburger-icon::after {
-  top: unset;
-  bottom: 3px;
-  transform: rotate(-45deg);
-}
-
-@media (width >= 900px) {
-  header nav .nav-hamburger {
-    display: none;
-    visibility: hidden;
-  }
-}
-
-/* brand */
-header .nav-brand {
-  grid-area: brand;
-  flex-basis: 50%;
-  font-size: var(--heading-font-size-s);
-  font-weight: 700;
-  line-height: 1;
-}
-
-header nav .nav-brand img {
-  width: auto;
-  height: 36px;
-}
-
-/* sections */
-header nav .nav-sections {
-  grid-area: sections;
-  flex: 1 1 auto;
-  display: none;
-  visibility: hidden;
-}
-
-header nav[aria-expanded='true'] .nav-sections {
-  display: block;
-  visibility: visible;
-  align-self: start;
-}
-
-header nav .nav-sections ul {
-  list-style: none;
-  padding-left: 0;
-  font-size: var(--body-font-size-s);
-}
-
-header nav .nav-sections ul > li {
-  font-weight: 500;
-}
-
-header nav .nav-sections ul > li > ul {
-  margin-top: 0;
-}
-
-header nav .nav-sections ul > li > ul > li {
-  font-weight: 400;
-}
-
-@media (width >= 900px) {
-  header nav .nav-sections {
-    display: block;
-    visibility: visible;
-    white-space: nowrap;
-  }
-
-  header nav[aria-expanded='true'] .nav-sections {
-    align-self: unset;
-  }
-
-  header nav .nav-sections .nav-drop {
-    position: relative;
-    padding-right: 16px;
-    cursor: pointer;
-  }
-
-  header nav .nav-sections .nav-drop::after {
-    content: '';
-    display: inline-block;
-    position: absolute;
-    top: 0.5em;
-    right: 2px;
-    transform: rotate(135deg);
-    width: 6px;
-    height: 6px;
-    border: 2px solid currentcolor;
-    border-radius: 0 1px 0 0;
-    border-width: 2px 2px 0 0;
-  }
-
-  header nav .nav-sections .nav-drop[aria-expanded='true']::after {
-    top: unset;
-    bottom: 0.5em;
-    transform: rotate(315deg);
-  }
-
-  header nav .nav-sections ul {
+/* ========== TOP BAR ========== */
+.header-top-bar {
     display: flex;
-    gap: 24px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 40px;
+    background: #fff;
+    border-bottom: 1px solid #e0e0e0;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* Brand Section - Left */
+.header-brand {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-shrink: 0;
+}
+
+.header-logo-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-logo img {
+    height: 50px;
+    width: auto;
+}
+
+.header-anniversary-logo img {
+    height: 45px;
+    width: auto;
+}
+
+.header-company-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.header-company-hindi {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--bpcl-primary-blue);
+    font-family: "Noto Sans Devanagari", sans-serif;
+}
+
+.header-company-english {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--bpcl-primary-blue);
+}
+
+.header-company-tagline {
+    font-size: 11px;
+    color: var(--bpcl-green);
+    font-weight: 500;
+}
+
+/* Search Section - Center */
+.header-search {
+    flex: 1;
+    max-width: 400px;
+    min-width: 200px;
+}
+
+.header-search-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    padding: 8px 15px;
+    background: #fff;
+    transition: border-color 0.3s ease;
+}
+
+.header-search-container:focus-within {
+    border-color: var(--bpcl-primary-blue);
+    box-shadow: 0 0 0 2px rgba(0, 91, 170, 0.1);
+}
+
+.header-search-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    opacity: 0.6;
+}
+
+.header-search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    color: #666;
+    background: transparent;
+}
+
+.header-search-input::placeholder {
+    color: #999;
+}
+
+.header-search-clear {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+}
+
+.header-search-clear:hover {
+    opacity: 1;
+}
+
+/* Right Section - Contact Info */
+.header-contact {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    flex-shrink: 0;
+}
+
+.header-smartline,
+.header-bharatgas {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.header-smartline-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.header-smartline-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--bpcl-primary-blue);
+    line-height: 1.1;
+}
+
+.header-smartline-title span {
+    color: var(--bpcl-yellow);
+    background: var(--bpcl-primary-blue);
+    padding: 1px 4px;
+    border-radius: 2px;
+}
+
+.header-smartline-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.header-smartline-number {
+    font-size: 11px;
+    color: #333;
+    font-weight: 500;
+}
+
+.header-smartline-tagline {
+    font-size: 10px;
+    color: var(--bpcl-orange);
+    font-style: italic;
+}
+
+.header-bharatgas-logo img {
+    height: 45px;
+    width: auto;
+}
+
+.header-bharatgas-info {
+    display: flex;
+    flex-direction: column;
+    font-size: 10px;
+    color: #333;
+    max-width: 100px;
+    line-height: 1.3;
+}
+
+.header-bharatgas-number {
+    font-weight: 700;
+    color: var(--bpcl-green);
+    font-size: 14px;
+}
+
+/* ========== NAVIGATION BAR ========== */
+.header-nav-bar {
+    background: var(--bpcl-primary-blue);
+    padding: 0 40px;
+}
+
+.header-nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.header-nav-menu {
+    display: flex;
+    align-items: center;
+    list-style: none;
     margin: 0;
-  }
+    padding: 0;
+    gap: 0;
+}
 
-  header nav .nav-sections .default-content-wrapper > ul > li {
-    flex: 0 1 auto;
+.header-nav-item {
     position: relative;
-  }
+}
 
-  header nav .nav-sections .default-content-wrapper > ul > li > ul {
-    display: none;
-    position: relative;
-  }
+.header-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 14px 16px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+    cursor: pointer;
+}
 
-  header nav .nav-sections .default-content-wrapper > ul > li[aria-expanded='true'] > ul {
-    display: block;
-    position: absolute;
-    left: -24px;
-    width: 200px;
-    top: 150%;
-    padding: 16px;
-    background-color: var(--light-color);
-    white-space: initial;
-  }
+.header-nav-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
 
-  header nav .nav-sections .default-content-wrapper > ul > li > ul::before {
-    content: '';
-    position: absolute;
-    top: -8px;
-    left: 16px;
+.header-nav-item.has-dropdown .header-nav-link::after {
+    content: "";
+    display: inline-block;
     width: 0;
     height: 0;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-bottom: 8px solid var(--light-color);
-  }
-
-  header nav .nav-sections .default-content-wrapper > ul > li > ul > li {
-    padding: 8px 0;
-  }
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid #fff;
+    margin-left: 4px;
 }
 
-/* tools */
-header nav .nav-tools {
-  grid-area: tools;
+/* Dropdown Menu */
+.header-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #fff;
+    min-width: 220px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    border-radius: 0 0 4px 4px;
+}
+
+.header-nav-item:hover .header-dropdown {
+    display: block;
+}
+
+.header-dropdown-item {
+    display: block;
+    padding: 12px 20px;
+    color: #333;
+    font-size: 13px;
+    text-decoration: none;
+    transition: background-color 0.2s;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.header-dropdown-item:hover {
+    background: var(--bpcl-light-gray);
+    color: var(--bpcl-primary-blue);
+}
+
+.header-dropdown-item:last-child {
+    border-bottom: none;
+}
+
+/* View Prices Button */
+.header-view-prices {
+    background: var(--bpcl-yellow);
+    color: var(--bpcl-dark-blue);
+    padding: 10px 24px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.header-view-prices:hover {
+    background: #e6b326;
+    transform: translateY(-1px);
+}
+
+/* ========== HAMBURGER MENU (Mobile) ========== */
+.header-hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.header-hamburger span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background: var(--bpcl-primary-blue);
+    border-radius: 2px;
+    transition: all 0.3s;
+}
+
+/* ========== MOBILE STYLES ========== */
+@media (width < 1200px) {
+    .header-top-bar {
+        padding: 10px 20px;
+    }
+
+    .header-nav-link {
+        padding: 14px 12px;
+        font-size: 12px;
+    }
+
+    .header-nav-bar {
+        padding: 0 20px;
+    }
+}
+
+@media (width < 900px) {
+    :root {
+        --nav-height: auto;
+    }
+
+    header {
+        height: auto;
+    }
+
+    .header-top-bar {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .header-brand {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .header-company-info {
+        align-items: center;
+    }
+
+    .header-search {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .header-contact {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .header-hamburger {
+        display: flex;
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        z-index: 101;
+    }
+
+    .header-nav-bar {
+        display: none;
+        padding: 0;
+    }
+
+    .header-nav-bar.active {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--bpcl-primary-blue);
+        z-index: 100;
+        overflow-y: auto;
+        padding-top: 60px;
+    }
+
+    .header-nav-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .header-nav-menu {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .header-nav-item {
+        width: 100%;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .header-nav-link {
+        padding: 16px 20px;
+        justify-content: space-between;
+    }
+
+    .header-dropdown {
+        position: static;
+        display: none;
+        background: rgba(0, 0, 0, 0.1);
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+    .header-nav-item.active .header-dropdown {
+        display: block;
+    }
+
+    .header-dropdown-item {
+        color: #fff;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        padding-left: 40px;
+    }
+
+    .header-dropdown-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+    }
+
+    .header-view-prices {
+        margin: 20px;
+        display: block;
+        text-align: center;
+    }
+
+    /* Mobile menu close button */
+    .header-nav-close {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .header-nav-close::before,
+    .header-nav-close::after {
+        content: "";
+        position: absolute;
+        width: 25px;
+        height: 3px;
+        background: #fff;
+        border-radius: 2px;
+    }
+
+    .header-nav-close::before {
+        transform: rotate(45deg);
+    }
+
+    .header-nav-close::after {
+        transform: rotate(-45deg);
+    }
+}
+
+@media (width < 600px) {
+    .header-logo img {
+        height: 40px;
+    }
+
+    .header-anniversary-logo img {
+        height: 35px;
+    }
+
+    .header-company-hindi {
+        font-size: 14px;
+    }
+
+    .header-company-english {
+        font-size: 12px;
+    }
+
+    .header-smartline,
+    .header-bharatgas {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .header-bharatgas-logo img {
+        height: 35px;
+    }
+}
+
+/* Hide original nav elements */
+header nav .nav-brand,
+header nav .nav-sections,
+header nav .nav-tools,
+header nav .nav-hamburger {
+    display: none !important;
 }

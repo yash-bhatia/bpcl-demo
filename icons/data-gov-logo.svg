@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40">
+  <rect width="120" height="40" fill="#fff" rx="3"/>
+  <rect x="5" y="8" width="30" height="24" fill="#2196F3" rx="3"/>
+  <rect x="10" y="13" width="8" height="3" fill="#fff"/>
+  <rect x="10" y="18" width="12" height="3" fill="#fff"/>
+  <rect x="10" y="23" width="6" height="3" fill="#fff"/>
+  <text x="42" y="18" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#2196F3">data.gov.in</text>
+  <text x="42" y="30" font-family="Arial, sans-serif" font-size="7" fill="#666">Open Government Data</text>
+</svg>
+

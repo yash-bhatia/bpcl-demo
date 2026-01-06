@@ -1,20 +1,378 @@
+/* BPCL Footer Styles */
+
+/* CSS Variables for Footer */
+:root {
+    --footer-bg-primary: #3d5a80;
+    --footer-bg-secondary: #2d3e50;
+    --footer-bg-tertiary: #1e2d3d;
+    --footer-text-color: #fff;
+    --footer-link-color: #fff;
+    --footer-link-hover: #ffc72c;
+    --footer-heading-color: #fff;
+    --footer-connect-link: #4fc3f7;
+}
+
+/* Main Footer Container */
 footer {
-  background-color: var(--light-color);
-  font-size: var(--body-font-size-xs);
+    background-color: var(--footer-bg-primary);
+    color: var(--footer-text-color);
+    font-size: 13px;
+    line-height: 1.6;
 }
 
-footer .footer > div {
-  margin: auto;
-  max-width: 1200px;
-  padding: 40px 24px 24px;
+footer .footer {
+    visibility: visible;
 }
 
-footer .footer p {
-  margin: 0;
+/* Footer Main Section */
+.footer-main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 40px 30px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 30px;
 }
 
-@media (width >= 900px) {
-  footer .footer > div {
-    padding: 40px 32px 24px;
-  }
+/* Footer Column */
+.footer-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-column-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--footer-heading-color);
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 8px;
+}
+
+.footer-links a {
+    color: var(--footer-text-color);
+    text-decoration: none;
+    font-size: 12px;
+    transition: color 0.2s ease;
+    display: inline-block;
+}
+
+.footer-links a:hover {
+    color: var(--footer-link-hover);
+    text-decoration: none;
+}
+
+/* Special Button Link */
+.footer-btn-link {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 6px 12px;
+    border-radius: 3px;
+    margin-top: 5px;
+    font-size: 11px;
+    transition: background 0.2s ease;
+}
+
+.footer-btn-link:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* Connect With Us Section */
+a.footer-connect-item,
+a.footer-connect-item:link,
+a.footer-connect-item:visited,
+a.footer-connect-item:hover,
+a.footer-connect-item:active {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    color: #fff !important;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+.footer-connect-icon {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+.footer-connect-icon svg {
+    width: 14px;
+    height: 14px;
+    fill: #fff;
+}
+
+/* Apps Section */
+.footer-apps-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--footer-heading-color);
+    margin: 20px 0 10px;
+    text-transform: uppercase;
+}
+
+a.footer-app-link,
+a.footer-app-link:link,
+a.footer-app-link:visited,
+a.footer-app-link:hover,
+a.footer-app-link:active {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #fff !important;
+    text-decoration: none;
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+
+a.footer-app-link::before {
+    content: "•";
+    color: #fff;
+}
+
+/* Other Links Section */
+.footer-other-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--footer-heading-color);
+    margin: 20px 0 10px;
+    text-transform: uppercase;
+}
+
+/* Footer Bottom Bar */
+.footer-bottom {
+    background: var(--footer-bg-secondary);
+    padding: 25px 40px;
+}
+
+.footer-bottom-content {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Policy Links Row */
+.footer-policy-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    margin-bottom: 20px;
+}
+
+/* Copyright Section - Darker Background */
+.footer-copyright-section {
+    background: var(--footer-bg-tertiary);
+    padding: 25px 40px;
+}
+
+.footer-copyright-content {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.footer-policy-links {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.footer-policy-links a {
+    color: var(--footer-text-color);
+    text-decoration: none;
+    font-size: 12px;
+    padding: 0 10px;
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+    transition: color 0.2s ease;
+}
+
+.footer-policy-links a:last-child {
+    border-right: none;
+}
+
+.footer-policy-links a:first-child {
+    padding-left: 0;
+}
+
+.footer-policy-links a:hover {
+    color: var(--footer-link-hover);
+}
+
+/* Government Logos */
+.footer-gov-logos {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.footer-gov-logo {
+    height: 35px;
+    width: auto;
+    background: #fff;
+    padding: 4px 8px;
+    border-radius: 3px;
+}
+
+/* Copyright Row */
+.footer-copyright-row {
+    text-align: center;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-copyright {
+    font-size: 12px;
+    color: #fff;
+    margin-bottom: 10px;
+    line-height: 1.7;
+}
+
+.footer-contact-info {
+    font-size: 12px;
+    color: #fff;
+    line-height: 1.7;
+}
+
+.footer-contact-info a {
+    color: var(--footer-connect-link);
+    text-decoration: none;
+}
+
+.footer-contact-info a:hover {
+    text-decoration: underline;
+    color: var(--footer-link-hover);
+}
+
+/* Validation Badges */
+.footer-validation-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-badge {
+    height: 32px;
+    width: auto;
+    border-radius: 4px;
+}
+
+/* Update Info */
+.footer-update-row {
+    text-align: center;
+    font-size: 12px;
+    color: #fff;
+    padding-top: 15px;
+}
+
+.footer-update-row p {
+    margin: 5px 0;
+}
+
+/* Responsive Styles */
+@media (width < 1200px) {
+    .footer-main {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
+        padding: 30px 30px 25px;
+    }
+}
+
+@media (width < 900px) {
+    .footer-main {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        padding: 25px 20px;
+    }
+
+    .footer-bottom {
+        padding: 15px 20px;
+    }
+
+    .footer-copyright-section {
+        padding: 20px;
+    }
+
+    .footer-policy-row {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-policy-links {
+        justify-content: center;
+    }
+
+    .footer-gov-logos {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+}
+
+@media (width < 600px) {
+    .footer-main {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        padding: 20px 15px;
+    }
+
+    .footer-column {
+        text-align: center;
+        align-items: center;
+    }
+
+    .footer-links {
+        text-align: center;
+    }
+
+    .footer-connect-item {
+        justify-content: center;
+    }
+
+    .footer-policy-links {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .footer-policy-links a {
+        border-right: none;
+        padding: 5px 0;
+    }
+
+    .footer-gov-logos {
+        gap: 10px;
+    }
+
+    .footer-gov-logo {
+        height: 28px;
+    }
+
+    .footer-copyright-section {
+        padding: 15px;
+    }
+
+    .footer-copyright,
+    .footer-contact-info {
+        font-size: 11px;
+    }
 }

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 30">
+  <rect width="80" height="30" fill="#fff" rx="3" stroke="#ccc" stroke-width="1"/>
+  <rect x="3" y="3" width="24" height="24" fill="#005A9C" rx="2"/>
+  <text x="15" y="18" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#fff" text-anchor="middle">W3C</text>
+  <text x="52" y="14" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#005A9C" text-anchor="middle">HTML</text>
+  <text x="52" y="24" font-family="Arial, sans-serif" font-size="7" fill="#4CAF50" text-anchor="middle">✓ Valid</text>
+</svg>
+

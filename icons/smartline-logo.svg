@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40">
+  <defs>
+    <linearGradient id="smBlue" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#005baa"/>
+      <stop offset="100%" style="stop-color:#003d73"/>
+    </linearGradient>
+    <linearGradient id="smYellow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffd700"/>
+      <stop offset="100%" style="stop-color:#ffb300"/>
+    </linearGradient>
+  </defs>
+  <!-- S Box -->
+  <rect x="2" y="8" width="18" height="18" rx="3" fill="url(#smBlue)"/>
+  <text x="11" y="22" font-family="Arial Black, sans-serif" font-size="14" font-weight="bold" fill="url(#smYellow)" text-anchor="middle">S</text>
+  <!-- mart Line text -->
+  <text x="24" y="21" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#005baa">mart Line</text>
+  <!-- Toll free line -->
+  <text x="2" y="35" font-family="Arial, sans-serif" font-size="7" fill="#333">Toll free 1800 22 4344</text>
+</svg>
+
