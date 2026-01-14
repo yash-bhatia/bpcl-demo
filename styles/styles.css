@@ -94,10 +94,19 @@ header {
     height: var(--nav-height);
 }
 
+/* Add padding to body for fixed header */
+body {
+    padding-top: var(--nav-height);
+}
+
 @media (width < 900px) {
     header {
         height: auto;
         min-height: 200px;
+    }
+
+    body {
+        padding-top: 250px;
     }
 }
 
@@ -305,4 +314,22 @@ main .section.highlight {
 .default-content-wrapper {
     text-align: center;
     padding: 20px 0 0 0;
+}
+
+/* Our Offerings Section Title - VIDEO GALLERY Style */
+.section[data-section-name="our-offerings"] .default-content-wrapper h2,
+.section.our-offerings .default-content-wrapper h2,
+#our-offerings,
+.our-offerings-title {
+    color: #2d6a8e;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin: 30px auto 25px;
+    padding: 0;
+    font-family: var(--heading-font-family);
+    display: block;
+    width: 100%;
 }

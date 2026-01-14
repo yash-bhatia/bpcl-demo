@@ -1,4 +1,4 @@
-import { getMetadata } from "../../scripts/aem.js";
+import { getMetadata, decorateBlock, loadBlock } from "../../scripts/aem.js";
 import { loadFragment } from "../fragment/fragment.js";
 
 // media query match that indicates mobile/tablet width
@@ -211,18 +211,21 @@ function initSearch() {
  * @param {Element} block The header block element
  */
 export default async function decorate(block) {
-  // load nav as fragment (for any authored content)
+  // Load nav fragment to get authored content
   const navMeta = getMetadata("nav");
   const navPath = navMeta ? new URL(navMeta, window.location).pathname : "/nav";
 
+  let fragmentContent = null;
   try {
-    await loadFragment(navPath);
+    fragmentContent = await loadFragment(navPath);
   } catch (e) {
     // Fragment may not exist, continue with default header
   }
 
-  // Create the BPCL header
+  // Clear the block
   block.textContent = "";
+
+  // Create the nav wrapper with hardcoded header FIRST
   const navWrapper = document.createElement("div");
   navWrapper.className = "nav-wrapper";
 
@@ -232,6 +235,37 @@ export default async function decorate(block) {
 
   navWrapper.append(nav);
   block.append(navWrapper);
+
+  // Create wrapper for authored content (from fragment) - AFTER the header
+  const authoredWrapper = document.createElement("div");
+  authoredWrapper.className = "header-authored-content";
+
+  // Extract and add authored blocks from fragment (like ticker)
+  // MOVE elements instead of cloning to preserve event handlers
+  if (fragmentContent) {
+    // Find all blocks in the fragment
+    const fragmentBlocks = [...fragmentContent.querySelectorAll(".block")];
+
+    for (const fragmentBlock of fragmentBlocks) {
+      // Move the block (preserves event handlers)
+      authoredWrapper.appendChild(fragmentBlock);
+    }
+
+    // Also check for any sections with content
+    const sections = [...fragmentContent.querySelectorAll(".section")];
+    for (const section of sections) {
+      const sectionBlocks = section.querySelectorAll(".block");
+      if (sectionBlocks.length === 0 && section.textContent.trim()) {
+        // Section without blocks - might have direct content
+        authoredWrapper.appendChild(section);
+      }
+    }
+  }
+
+  // Add authored content BELOW the header
+  if (authoredWrapper.children.length > 0) {
+    block.append(authoredWrapper);
+  }
 
   // Initialize functionality
   initMobileMenu();

@@ -11,14 +11,38 @@
     --nav-height: 140px;
 }
 
-/* Header Container */
-header .nav-wrapper {
-    background-color: var(--background-color);
-    width: 100%;
-    z-index: 100;
+/* Header block - fixed positioning */
+header {
     position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: #fff;
+}
+
+/* Header Container */
+header .nav-wrapper {
+    background-color: #fff;
+    width: 100%;
+    z-index: 100;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Authored Content (Ticker, etc.) - Below the header */
+.header-authored-content {
+    width: 100%;
+    background: #005baa;
+}
+
+.header-authored-content .ticker {
+    display: flex;
+    align-items: center;
+    background: #005baa;
+    color: #fff;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
 }
 
 header nav {
