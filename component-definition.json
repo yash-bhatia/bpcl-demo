@@ -205,14 +205,8 @@
                 "template": {
                   "jcr:title": "Checkbox Group",
                   "fieldType": "checkbox-group",
-                  "enum": [
-                    "0",
-                    "1"
-                  ],
-                  "enumNames": [
-                    "Item 1",
-                    "Item 2"
-                  ],
+                  "enum": ["0", "1"],
+                  "enumNames": ["Item 1", "Item 2"],
                   "orientation": "horizontal",
                   "type": "string[]"
                 }
@@ -261,14 +255,8 @@
                 "template": {
                   "jcr:title": "Drop Down List",
                   "fieldType": "drop-down",
-                  "enum": [
-                    "0",
-                    "1"
-                  ],
-                  "enumNames": [
-                    "Item 1",
-                    "Item 2"
-                  ],
+                  "enum": ["0", "1"],
+                  "enumNames": ["Item 1", "Item 2"],
                   "type": "string"
                 }
               }
@@ -387,14 +375,8 @@
                 "template": {
                   "jcr:title": "Radio Group",
                   "fieldType": "radio-group",
-                  "enum": [
-                    "0",
-                    "1"
-                  ],
-                  "enumNames": [
-                    "Item 1",
-                    "Item 2"
-                  ],
+                  "enum": ["0", "1"],
+                  "enumNames": ["Item 1", "Item 2"],
                   "orientation": "horizontal"
                 }
               }
@@ -589,15 +571,11 @@
                     "textIsRich": true
                   },
                   "link": {
-                    "enum": [
-                      "dummy-link-1"
-                    ],
+                    "enum": ["dummy-link-1"],
                     "type": "string[]",
                     "fd:viewType": "toggleable-link",
                     "title": "I agree to the terms & conditions",
-                    "enumNames": [
-                      "Privacy policy."
-                    ],
+                    "enumNames": ["Privacy policy."],
                     "sling:resourceType": "core/fd/components/form/checkboxgroup/v1/checkboxgroup",
                     "fieldType": "checkbox-group",
                     "fd:rules": {
@@ -618,9 +596,7 @@
                     "fieldType": "checkbox",
                     "required": true,
                     "type": "string",
-                    "enum": [
-                      "true"
-                    ]
+                    "enum": ["true"]
                   }
                 }
               }
