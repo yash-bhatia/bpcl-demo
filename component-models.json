@@ -4982,13 +4982,6 @@
         "name": "pauseOnHover",
         "label": "Pause on Hover",
         "value": true
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "backgroundColor",
-        "label": "Background Color",
-        "value": "#005baa"
       }
     ]
   },
@@ -4996,19 +4989,10 @@
     "id": "ticker-item",
     "fields": [
       {
-        "component": "richtext",
-        "name": "content",
-        "label": "Ticker Content",
-        "description": "The scrolling announcement text. Use links for clickable items.",
+        "component": "text",
+        "name": "text",
+        "label": "Ticker Text",
         "valueType": "string"
-      },
-      {
-        "component": "boolean",
-        "valueType": "boolean",
-        "name": "isAlert",
-        "label": "Is Alert/Important",
-        "description": "Mark as important to highlight the text",
-        "value": false
       }
     ]
   }
