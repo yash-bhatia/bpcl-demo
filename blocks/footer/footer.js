@@ -1,15 +1,15 @@
-import { getMetadata } from '../../scripts/aem.js';
-import { loadFragment } from '../fragment/fragment.js';
+import { getMetadata } from "../../scripts/aem.js";
+import { loadFragment } from "../fragment/fragment.js";
 
 /**
  * Creates the BPCL footer structure
  */
 function createBPCLFooter() {
   const currentYear = new Date().getFullYear();
-  const lastUpdated = new Date().toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
+  const lastUpdated = new Date().toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
   });
 
   const footerHTML = `
@@ -137,9 +137,9 @@ function createBPCLFooter() {
             <a href="/faqs">FAQs</a>
           </div>
           <div class="footer-gov-logos">
-            <img src="/icons/india-gov-logo.svg" alt="India.gov.in" class="footer-gov-logo">
-            <img src="/icons/mygov-logo.svg" alt="MyGov" class="footer-gov-logo">
-            <img src="/icons/data-gov-logo.svg" alt="Data.gov.in" class="footer-gov-logo">
+            <img src="https://www.bharatpetroleum.in/images/IndiaGovLogo_new.jpg" alt="India.gov.in" class="footer-gov-logo">
+            <img src="https://www.bharatpetroleum.in/images/MyGovLogo_new.jpg" alt="MyGov" class="footer-gov-logo">
+            <img src="https://www.bharatpetroleum.in/images/DataGovLogo_new.jpg" alt="Data.gov.in" class="footer-gov-logo">
           </div>
         </div>
       </div>
@@ -162,8 +162,8 @@ function createBPCLFooter() {
 
         <!-- Validation Badges -->
         <div class="footer-validation-row">
-          <img src="/icons/w3c-html-badge.svg" alt="W3C HTML Valid" class="footer-badge">
-          <img src="/icons/w3c-css-badge.svg" alt="W3C CSS Valid" class="footer-badge">
+          <img src="https://www.bharatpetroleum.in/images/w3c-htm-validator.png" alt="W3C HTML Valid" class="footer-badge">
+          <img src="https://www.bharatpetroleum.in/images/W3C-css-validator.png" alt="W3C CSS Valid" class="footer-badge">
         </div>
 
         <!-- Update Info -->
@@ -184,8 +184,10 @@ function createBPCLFooter() {
  */
 export default async function decorate(block) {
   // load footer as fragment (for any authored content)
-  const footerMeta = getMetadata('footer');
-  const footerPath = footerMeta ? new URL(footerMeta, window.location).pathname : '/footer';
+  const footerMeta = getMetadata("footer");
+  const footerPath = footerMeta
+    ? new URL(footerMeta, window.location).pathname
+    : "/footer";
 
   try {
     await loadFragment(footerPath);
@@ -194,8 +196,8 @@ export default async function decorate(block) {
   }
 
   // Create the BPCL footer
-  block.textContent = '';
-  const footer = document.createElement('div');
+  block.textContent = "";
+  const footer = document.createElement("div");
   footer.innerHTML = createBPCLFooter();
 
   block.append(footer);
