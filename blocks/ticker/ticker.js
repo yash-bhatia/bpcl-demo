@@ -1,12 +1,14 @@
 /**
  * Ticker Block
  * A scrolling announcement bar with content moving from right to left
- * Features pause/resume functionality on hover and via controls
+ * Features pause on hover functionality
  */
 
 export default function decorate(block) {
-  // Get the text content from the block
-  const textContent = block.textContent.trim();
+  // Get the text content from the first cell
+  const firstRow = block.children[0];
+  const firstCell = firstRow?.children[0];
+  const textContent = firstCell?.textContent?.trim() || "";
 
   // Create ticker structure
   const tickerWrapper = document.createElement("div");
@@ -27,11 +29,10 @@ export default function decorate(block) {
   tickerTrack.appendChild(tickerItem);
 
   // Duplicate content for seamless loop
-  const trackClone = tickerTrack.cloneNode(true);
-  trackClone.className = "ticker-track ticker-track-clone";
+  const tickerItemClone = tickerItem.cloneNode(true);
+  tickerTrack.appendChild(tickerItemClone);
 
   tickerWrapper.appendChild(tickerTrack);
-  tickerWrapper.appendChild(trackClone);
 
   // Create controls
   const controls = document.createElement("div");
@@ -84,7 +85,7 @@ export default function decorate(block) {
 
   pauseBtn.addEventListener("click", togglePause);
 
-  // Pause on hover
+  // Pause on hover (default enabled)
   tickerWrapper.addEventListener("mouseenter", () => {
     if (!isPaused) {
       tickerWrapper.classList.add("hover-paused");

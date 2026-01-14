@@ -25,14 +25,9 @@
 .ticker-track {
     display: flex;
     align-items: center;
-    animation: ticker-scroll 30s linear infinite;
+    animation: ticker-scroll 5s linear infinite;
     white-space: nowrap;
     will-change: transform;
-    padding-right: 50px;
-}
-
-.ticker-track-clone {
-    animation: ticker-scroll 30s linear infinite;
 }
 
 /* Pause states */
@@ -47,7 +42,7 @@
         transform: translateX(0);
     }
     100% {
-        transform: translateX(-100%);
+        transform: translateX(-50%);
     }
 }
 
@@ -132,10 +127,6 @@
 }
 
 @media (max-width: 480px) {
-    .ticker-track {
-        animation-duration: 20s;
-    }
-
     .ticker-text {
         font-size: 11px;
     }

@@ -26,21 +26,6 @@
           "name": "text",
           "label": "Ticker Text",
           "description": "The scrolling announcement text"
-        },
-        {
-          "component": "number",
-          "valueType": "number",
-          "name": "speed",
-          "label": "Scroll Speed (seconds)",
-          "description": "Duration for one complete scroll cycle",
-          "value": 30
-        },
-        {
-          "component": "boolean",
-          "valueType": "boolean",
-          "name": "pauseOnHover",
-          "label": "Pause on Hover",
-          "value": true
         }
       ]
     }
