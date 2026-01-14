@@ -15,46 +15,28 @@ function createBPCLHeader() {
       <div class="header-brand">
         <div class="header-logo-group">
           <a href="/" class="header-logo">
-            <img src="/icons/bpcl-logo.svg" alt="BPCL Logo">
+            <img src="https://www.bharatpetroleum.in/images/bpcl_transparent_logo_new.png" alt="BPCL Logo">
           </a>
-          <a href="/" class="header-anniversary-logo">
-            <img src="/icons/bpcl-50-logo.svg" alt="BPCL 50 Years">
-          </a>
-        </div>
-        <div class="header-company-info">
-          <div class="header-company-hindi">भारत पेट्रोलियम कॉर्पोरेशन लिमिटेड</div>
-          <div class="header-company-english">Bharat Petroleum Corporation Limited</div>
-          <div class="header-company-tagline">(A Maharatna Company)</div>
         </div>
       </div>
 
       <!-- Search Section -->
       <div class="header-search">
         <div class="header-search-container">
-          <img src="/icons/search.svg" alt="Search" class="header-search-icon">
+          <img src="https://www.bharatpetroleum.in/images/search_icon.png" alt="Search" class="header-search-icon">
           <input type="text" class="header-search-input" placeholder="What are you looking for?">
-          <img src="/icons/close.svg" alt="Clear" class="header-search-clear">
+          <span class="header-search-clear">&times;</span>
         </div>
       </div>
 
       <!-- Contact Section -->
       <div class="header-contact">
         <div class="header-smartline">
-          <div class="header-smartline-logo">
-            <span class="header-smartline-title"><span>S</span>mart Line</span>
-          </div>
-          <div class="header-smartline-info">
-            <span class="header-smartline-number">Toll free 1800 22 4344</span>
-            <span class="header-smartline-tagline">Ek Call...Sab Solve</span>
-          </div>
+        <img src="https://www.bharatpetroleum.in/images/img_smart-line.png" alt="Bharatgas">
         </div>
         <div class="header-bharatgas">
           <div class="header-bharatgas-logo">
-            <img src="/icons/bharatgas-logo.svg" alt="Bharatgas">
-          </div>
-          <div class="header-bharatgas-info">
-            <span>For LPG leakage complaints call</span>
-            <span class="header-bharatgas-number">1906</span>
+            <img src="https://www.bharatpetroleum.in/images/bh-gas-logo.png" alt="Bharatgas">
           </div>
         </div>
       </div>

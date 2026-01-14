@@ -46,11 +46,12 @@ header nav a:hover {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 40px;
+    padding: 8px 30px;
     background: #fff;
     border-bottom: 1px solid #e0e0e0;
-    gap: 20px;
-    flex-wrap: wrap;
+    gap: 15px;
+    flex-wrap: nowrap;
+    min-height: 70px;
 }
 
 /* Brand Section - Left */
@@ -68,8 +69,9 @@ header nav a:hover {
 }
 
 .header-logo img {
-    height: 50px;
+    height: 55px;
     width: auto;
+    object-fit: contain;
 }
 
 .header-anniversary-logo img {
@@ -105,18 +107,19 @@ header nav a:hover {
 /* Search Section - Center */
 .header-search {
     flex: 1;
-    max-width: 400px;
+    max-width: 350px;
     min-width: 200px;
+    margin: 0 20px;
 }
 
 .header-search-container {
     display: flex;
     align-items: center;
-    border: 1px solid #ccc;
+    border: 1px solid #d0d0d0;
     border-radius: 25px;
-    padding: 8px 15px;
+    padding: 8px 16px;
     background: #fff;
-    transition: border-color 0.3s ease;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .header-search-container:focus-within {
@@ -125,50 +128,81 @@ header nav a:hover {
 }
 
 .header-search-icon {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     margin-right: 10px;
-    opacity: 0.6;
+    opacity: 0.5;
+    flex-shrink: 0;
 }
 
 .header-search-input {
     flex: 1;
     border: none;
     outline: none;
-    font-size: 14px;
+    font-size: 13px;
     color: #666;
     background: transparent;
+    min-width: 0;
 }
 
 .header-search-input::placeholder {
     color: #999;
+    font-size: 13px;
 }
 
 .header-search-clear {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     cursor: pointer;
     opacity: 0.5;
-    transition: opacity 0.2s;
+    transition: opacity 0.2s, color 0.2s;
+    flex-shrink: 0;
+    margin-left: 8px;
+    font-size: 20px;
+    line-height: 1;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 300;
 }
 
 .header-search-clear:hover {
     opacity: 1;
+    color: #333;
 }
 
 /* Right Section - Contact Info */
 .header-contact {
     display: flex;
     align-items: center;
-    gap: 25px;
+    gap: 0;
     flex-shrink: 0;
 }
 
-.header-smartline,
+.header-smartline {
+    display: flex;
+    align-items: center;
+    padding-right: 20px;
+    border-right: 1px solid #e0e0e0;
+}
+
+.header-smartline img {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+}
+
 .header-bharatgas {
     display: flex;
     align-items: center;
-    gap: 8px;
+    padding-left: 20px;
+}
+
+.header-bharatgas-logo img {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
 }
 
 .header-smartline-logo {
@@ -206,11 +240,6 @@ header nav a:hover {
     font-size: 10px;
     color: var(--bpcl-orange);
     font-style: italic;
-}
-
-.header-bharatgas-logo img {
-    height: 45px;
-    width: auto;
 }
 
 .header-bharatgas-info {
@@ -356,10 +385,31 @@ header nav a:hover {
     transition: all 0.3s;
 }
 
-/* ========== MOBILE STYLES ========== */
+/* ========== RESPONSIVE STYLES ========== */
+@media (width < 1400px) {
+    .header-top-bar {
+        padding: 8px 20px;
+    }
+
+    .header-search {
+        max-width: 300px;
+    }
+
+    .header-smartline img,
+    .header-bharatgas-logo img {
+        height: 45px;
+    }
+}
+
 @media (width < 1200px) {
     .header-top-bar {
-        padding: 10px 20px;
+        padding: 8px 15px;
+        gap: 10px;
+    }
+
+    .header-search {
+        max-width: 250px;
+        margin: 0 10px;
     }
 
     .header-nav-link {
@@ -369,6 +419,23 @@ header nav a:hover {
 
     .header-nav-bar {
         padding: 0 20px;
+    }
+
+    .header-logo img {
+        height: 45px;
+    }
+
+    .header-smartline img,
+    .header-bharatgas-logo img {
+        height: 40px;
+    }
+
+    .header-smartline {
+        padding-right: 15px;
+    }
+
+    .header-bharatgas {
+        padding-left: 15px;
     }
 }
 
@@ -382,35 +449,48 @@ header nav a:hover {
     }
 
     .header-top-bar {
-        flex-direction: column;
-        gap: 15px;
-        padding: 15px;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 12px 15px;
+        justify-content: center;
     }
 
     .header-brand {
-        flex-direction: column;
+        flex: 1 1 100%;
+        justify-content: center;
         text-align: center;
     }
 
-    .header-company-info {
-        align-items: center;
-    }
-
     .header-search {
-        width: 100%;
+        flex: 1 1 100%;
         max-width: 100%;
+        margin: 0;
+        order: 3;
     }
 
     .header-contact {
-        flex-wrap: wrap;
+        flex: 1 1 auto;
         justify-content: center;
-        gap: 15px;
+        order: 2;
+    }
+
+    .header-smartline {
+        padding-right: 12px;
+    }
+
+    .header-bharatgas {
+        padding-left: 12px;
+    }
+
+    .header-smartline img,
+    .header-bharatgas-logo img {
+        height: 38px;
     }
 
     .header-hamburger {
         display: flex;
         position: absolute;
-        top: 15px;
+        top: 12px;
         right: 15px;
         z-index: 101;
     }
@@ -515,6 +595,10 @@ header nav a:hover {
 }
 
 @media (width < 600px) {
+    .header-top-bar {
+        padding: 10px;
+    }
+
     .header-logo img {
         height: 40px;
     }
@@ -531,12 +615,24 @@ header nav a:hover {
         font-size: 12px;
     }
 
-    .header-smartline,
-    .header-bharatgas {
+    .header-contact {
         flex-direction: column;
-        text-align: center;
+        gap: 10px;
     }
 
+    .header-smartline {
+        padding-right: 0;
+        border-right: none;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .header-bharatgas {
+        padding-left: 0;
+        padding-top: 5px;
+    }
+
+    .header-smartline img,
     .header-bharatgas-logo img {
         height: 35px;
     }
