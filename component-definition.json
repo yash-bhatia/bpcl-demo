@@ -694,7 +694,13 @@
                 "template": {
                   "name": "Ticker",
                   "model": "ticker",
-                  "filter": "ticker"
+                  "filter": "ticker",
+                  "item1": {
+                    "sling:resourceType": "core/franklin/components/block/v1/block/item",
+                    "name": "Ticker Item",
+                    "model": "ticker-item",
+                    "text": "Sample announcement text - click to edit"
+                  }
                 }
               }
             }

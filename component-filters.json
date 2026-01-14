@@ -1,7 +1,9 @@
 [
   {
     "id": "main",
-    "components": ["section"]
+    "components": [
+      "section"
+    ]
   },
   {
     "id": "section",
@@ -16,25 +18,35 @@
       "fragment",
       "form",
       "embed-adaptive-form",
-      "carousel",
-      "ticker"
+      "carousel"
     ]
   },
   {
     "id": "cards",
-    "components": ["card"]
+    "components": [
+      "card"
+    ]
   },
   {
     "id": "carousel",
-    "components": ["card"]
+    "components": [
+      "card"
+    ]
   },
   {
     "id": "columns",
-    "components": ["column"]
+    "components": [
+      "column"
+    ]
   },
   {
     "id": "column",
-    "components": ["text", "image", "button", "title"]
+    "components": [
+      "text",
+      "image",
+      "button",
+      "title"
+    ]
   },
   {
     "id": "form",
@@ -68,6 +80,8 @@
   },
   {
     "id": "ticker",
-    "components": ["ticker-item"]
+    "components": [
+      "ticker-item"
+    ]
   }
 ]
