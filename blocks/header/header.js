@@ -67,14 +67,59 @@ function createBPCLHeader() {
               <a href="/about/management" class="header-dropdown-item">Management</a>
             </div>
           </li>
-          <li class="header-nav-item has-dropdown">
+          <li class="header-nav-item has-dropdown has-mega-menu">
             <span class="header-nav-link">Bharat Petroleum For</span>
-            <div class="header-dropdown">
-              <a href="/for/retail-customers" class="header-dropdown-item">Retail Customers</a>
-              <a href="/for/industrial-customers" class="header-dropdown-item">Industrial Customers</a>
-              <a href="/for/aviation" class="header-dropdown-item">Aviation</a>
-              <a href="/for/marine" class="header-dropdown-item">Marine</a>
-              <a href="/for/lubricants" class="header-dropdown-item">Lubricants</a>
+            <div class="header-mega-dropdown">
+              <div class="mega-menu-column column-1">
+                <div class="mega-menu-item has-submenu" data-opens="column-2">
+                  <span class="mega-menu-link">Our Businesses</span>
+                  <span class="submenu-arrow">▸</span>
+                </div>
+                <a href="/for/refineries" class="mega-menu-item">Refineries</a>
+                <a href="/for/investors" class="mega-menu-item">Investors</a>
+                <div class="mega-menu-item has-submenu">
+                  <span class="mega-menu-link">Business Associates</span>
+                  <span class="submenu-arrow">▸</span>
+                </div>
+                <a href="/for/your-corner" class="mega-menu-item">Your Corner</a>
+                <a href="/for/startups" class="mega-menu-item">Startups</a>
+                <div class="mega-menu-item has-submenu">
+                  <span class="mega-menu-link">For Retired Staff</span>
+                  <span class="submenu-arrow">▸</span>
+                </div>
+              </div>
+              <div class="mega-menu-column column-2" data-column="column-2">
+                <div class="mega-menu-item has-submenu" data-opens="column-3">
+                  <span class="mega-menu-link highlight">Fuels and Services</span>
+                  <span class="submenu-arrow">▸</span>
+                </div>
+                <a href="/for/bharatgas" class="mega-menu-item">Bharatgas</a>
+                <a href="/for/mak-lubricants" class="mega-menu-item">MAK Lubricants</a>
+                <a href="/for/aviation-services" class="mega-menu-item">Aviation Services</a>
+                <a href="/for/gas" class="mega-menu-item">Gas</a>
+                <a href="/for/industrial-commercial" class="mega-menu-item">Industrial and Commercial</a>
+                <a href="/for/international-trade" class="mega-menu-item">International Trade & Risk Management</a>
+                <a href="/for/proficiency-testing" class="mega-menu-item">Proficiency Testing</a>
+                <a href="/for/pipelines" class="mega-menu-item">Pipelines</a>
+                <a href="/for/bpcl-group" class="mega-menu-item">BPCL group</a>
+              </div>
+              <div class="mega-menu-column column-3" data-column="column-3">
+                <div class="mega-menu-item submenu-header">
+                  <span class="mega-menu-link highlight">Fuels and Services</span>
+                </div>
+                <a href="/for/pure-for-sure" class="mega-menu-item">Pure For Sure</a>
+                <a href="/index/smart-fleet" class="mega-menu-item">SmartFleet</a>
+                <a href="/for/speed-fuels" class="mega-menu-item">Speed Fuels</a>
+                <a href="/for/speed-97" class="mega-menu-item">Speed 97</a>
+                <a href="/for/ufill" class="mega-menu-item">UFill</a>
+                <a href="/for/petrocard" class="mega-menu-item">PetroCard</a>
+                <a href="/for/bpcl-sbi-card" class="mega-menu-item">BPCL SBI Card</a>
+                <a href="/for/smartdrive" class="mega-menu-item">SmartDrive</a>
+                <a href="/for/door-to-door-delivery" class="mega-menu-item">Door to Door Delivery</a>
+                <a href="/for/beyond-fuels" class="mega-menu-item">Beyond Fuels</a>
+                <a href="/for/mak-quik" class="mega-menu-item">MAK Quik</a>
+                <a href="/for/ghar" class="mega-menu-item">Ghar</a>
+              </div>
             </div>
           </li>
           <li class="header-nav-item has-dropdown">
@@ -207,6 +252,120 @@ function initSearch() {
 }
 
 /**
+ * Updates border classes based on visible columns
+ */
+function updateColumnBorders(megaDropdown) {
+  if (!megaDropdown) return;
+
+  const columns = megaDropdown.querySelectorAll(".mega-menu-column");
+  columns.forEach((col) => col.classList.remove("has-visible-sibling"));
+
+  // Check if column-2 is visible, add border to column-1
+  const col1 = megaDropdown.querySelector(".column-1");
+  const col2 = megaDropdown.querySelector(".column-2");
+  const col3 = megaDropdown.querySelector(".column-3");
+
+  if (col2 && col2.classList.contains("visible") && col1) {
+    col1.classList.add("has-visible-sibling");
+  }
+  if (col3 && col3.classList.contains("visible") && col2) {
+    col2.classList.add("has-visible-sibling");
+  }
+}
+
+/**
+ * Initializes mega menu click-based column reveal
+ */
+function initMegaMenu() {
+  const megaMenuItems = document.querySelectorAll(
+    ".mega-menu-item.has-submenu[data-opens]"
+  );
+
+  megaMenuItems.forEach((item) => {
+    item.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const targetColumn = item.getAttribute("data-opens");
+      const megaDropdown = item.closest(".header-mega-dropdown");
+
+      if (megaDropdown && targetColumn) {
+        // Find the target column
+        const column = megaDropdown.querySelector(
+          `[data-column="${targetColumn}"]`
+        );
+
+        if (column) {
+          // Toggle the column visibility
+          const isVisible = column.classList.contains("visible");
+
+          // Hide all columns after the current one if clicking the same item
+          if (isVisible) {
+            column.classList.remove("visible");
+            // Hide any columns after this one
+            const columnNumber = parseInt(targetColumn.replace("column-", ""));
+            for (let i = columnNumber + 1; i <= 5; i++) {
+              const nextColumn = megaDropdown.querySelector(
+                `[data-column="column-${i}"]`
+              );
+              if (nextColumn) nextColumn.classList.remove("visible");
+            }
+            item.classList.remove("active");
+          } else {
+            column.classList.add("visible");
+            item.classList.add("active");
+          }
+
+          // Update borders
+          updateColumnBorders(megaDropdown);
+        }
+      }
+    });
+  });
+
+  // Close mega menu columns when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".has-mega-menu")) {
+      const visibleColumns = document.querySelectorAll(
+        ".mega-menu-column.visible"
+      );
+      visibleColumns.forEach((col) => {
+        col.classList.remove("visible");
+        col.classList.remove("has-visible-sibling");
+      });
+      const activeItems = document.querySelectorAll(
+        ".mega-menu-item.has-submenu.active"
+      );
+      activeItems.forEach((item) => item.classList.remove("active"));
+      // Remove borders from column-1
+      const col1 = document.querySelector(".mega-menu-column.column-1");
+      if (col1) col1.classList.remove("has-visible-sibling");
+    }
+  });
+
+  // Reset columns when leaving the mega menu
+  const megaMenu = document.querySelector(".has-mega-menu");
+  if (megaMenu) {
+    megaMenu.addEventListener("mouseleave", () => {
+      const visibleColumns = megaMenu.querySelectorAll(
+        ".mega-menu-column.visible"
+      );
+      visibleColumns.forEach((col) => {
+        col.classList.remove("visible");
+        col.classList.remove("has-visible-sibling");
+      });
+      const activeItems = megaMenu.querySelectorAll(
+        ".mega-menu-item.has-submenu.active"
+      );
+      activeItems.forEach((item) => item.classList.remove("active"));
+      // Remove borders from column-1
+      const col1 = megaMenu.querySelector(".mega-menu-column.column-1");
+      if (col1) col1.classList.remove("has-visible-sibling");
+    });
+  }
+}
+
+/**
  * loads and decorates the header, mainly the nav
  * @param {Element} block The header block element
  */
@@ -270,4 +429,5 @@ export default async function decorate(block) {
   // Initialize functionality
   initMobileMenu();
   initSearch();
+  initMegaMenu();
 }

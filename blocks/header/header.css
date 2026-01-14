@@ -373,6 +373,105 @@ header nav a:hover {
     border-bottom: none;
 }
 
+/* ========== MEGA MENU (Multi-level Dropdown) ========== */
+.header-mega-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #fff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 0 0 4px 4px;
+    z-index: 1000;
+    flex-direction: row;
+    width: auto;
+}
+
+.header-nav-item.has-mega-menu:hover .header-mega-dropdown {
+    display: flex;
+}
+
+.mega-menu-column {
+    min-width: 220px;
+    padding: 15px 0;
+    background: #fff;
+    border-right: none;
+}
+
+/* Show border only when column has visible sibling */
+.mega-menu-column.has-visible-sibling {
+    border-right: 1px solid #e8e8e8;
+}
+
+/* Hide columns 2 and 3 by default - show on click */
+.mega-menu-column.column-2,
+.mega-menu-column.column-3 {
+    display: none;
+}
+
+.mega-menu-column.column-2.visible,
+.mega-menu-column.column-3.visible {
+    display: block;
+}
+
+.mega-menu-column.column-3 {
+    background: #f8f9fa;
+}
+
+/* Active submenu item styling */
+.mega-menu-item.has-submenu.active {
+    background: #e8f4fc;
+    color: var(--bpcl-primary-blue);
+}
+
+.mega-menu-item.has-submenu.active .submenu-arrow {
+    color: var(--bpcl-primary-blue);
+}
+
+.mega-menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.2s;
+    cursor: pointer;
+    border-bottom: none;
+}
+
+.mega-menu-item:hover {
+    background: #f0f4f8;
+    color: var(--bpcl-primary-blue);
+}
+
+.mega-menu-item.submenu-header {
+    background: #e8e8e8;
+    font-weight: 600;
+    cursor: default;
+}
+
+.mega-menu-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.mega-menu-link.highlight {
+    color: var(--bpcl-primary-blue);
+    font-weight: 600;
+}
+
+.submenu-arrow {
+    color: #999;
+    font-size: 12px;
+    margin-left: 10px;
+}
+
+.mega-menu-item.has-submenu:hover .submenu-arrow {
+    color: var(--bpcl-primary-blue);
+}
+
 /* View Prices Button */
 .header-view-prices {
     background: var(--bpcl-yellow);
@@ -578,6 +677,68 @@ header nav a:hover {
     .header-dropdown-item:hover {
         background: rgba(255, 255, 255, 0.1);
         color: #fff;
+    }
+
+    /* Mega Menu Mobile */
+    .header-mega-dropdown {
+        position: static;
+        flex-direction: column;
+        min-width: 100%;
+        background: rgba(0, 0, 0, 0.1);
+        box-shadow: none;
+    }
+
+    .header-nav-item.has-mega-menu:hover .header-mega-dropdown {
+        display: none;
+    }
+
+    .header-nav-item.has-mega-menu.active .header-mega-dropdown {
+        display: flex;
+    }
+
+    .mega-menu-column {
+        min-width: 100%;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        background: transparent;
+        padding: 10px 0;
+    }
+
+    .mega-menu-column.column-3 {
+        background: rgba(0, 0, 0, 0.15);
+    }
+
+    /* Show all columns on mobile when active */
+    .mega-menu-column.column-2,
+    .mega-menu-column.column-3 {
+        display: none;
+    }
+
+    .mega-menu-column.column-2.visible,
+    .mega-menu-column.column-3.visible {
+        display: block;
+    }
+
+    .mega-menu-item {
+        color: #fff;
+        padding: 10px 40px;
+    }
+
+    .mega-menu-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+    }
+
+    .mega-menu-item.submenu-header {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .mega-menu-link.highlight {
+        color: #90cdf4;
+    }
+
+    .submenu-arrow {
+        color: rgba(255, 255, 255, 0.6);
     }
 
     .header-view-prices {
