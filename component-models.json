@@ -4969,6 +4969,13 @@
     "id": "ticker",
     "fields": [
       {
+        "component": "text",
+        "valueType": "string",
+        "name": "text",
+        "label": "Ticker Text",
+        "description": "The scrolling announcement text"
+      },
+      {
         "component": "number",
         "valueType": "number",
         "name": "speed",
@@ -4982,17 +4989,6 @@
         "name": "pauseOnHover",
         "label": "Pause on Hover",
         "value": true
-      }
-    ]
-  },
-  {
-    "id": "ticker-item",
-    "fields": [
-      {
-        "component": "text",
-        "name": "text",
-        "label": "Ticker Text",
-        "valueType": "string"
       }
     ]
   }

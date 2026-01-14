@@ -77,11 +77,5 @@
       "wizard",
       "range"
     ]
-  },
-  {
-    "id": "ticker",
-    "components": [
-      "ticker-item"
-    ]
   }
 ]

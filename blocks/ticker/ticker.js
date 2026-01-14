@@ -5,8 +5,8 @@
  */
 
 export default function decorate(block) {
-  // Get authored content from block
-  const items = [...block.children];
+  // Get the text content from the block
+  const textContent = block.textContent.trim();
 
   // Create ticker structure
   const tickerWrapper = document.createElement("div");
@@ -15,22 +15,16 @@ export default function decorate(block) {
   const tickerTrack = document.createElement("div");
   tickerTrack.className = "ticker-track";
 
-  // Process each authored item
-  items.forEach((item) => {
-    const tickerItem = document.createElement("div");
-    tickerItem.className = "ticker-item";
+  // Create ticker item with the text
+  const tickerItem = document.createElement("div");
+  tickerItem.className = "ticker-item";
 
-    // Get the content from the authored row
-    const cells = [...item.children];
-    cells.forEach((cell) => {
-      // Clone content preserving links and formatting
-      const content = cell.cloneNode(true);
-      content.className = "ticker-content";
-      tickerItem.appendChild(content);
-    });
+  const tickerText = document.createElement("span");
+  tickerText.className = "ticker-text";
+  tickerText.textContent = textContent;
 
-    tickerTrack.appendChild(tickerItem);
-  });
+  tickerItem.appendChild(tickerText);
+  tickerTrack.appendChild(tickerItem);
 
   // Duplicate content for seamless loop
   const trackClone = tickerTrack.cloneNode(true);
@@ -90,7 +84,7 @@ export default function decorate(block) {
 
   pauseBtn.addEventListener("click", togglePause);
 
-  // Pause on hover (optional - can be disabled)
+  // Pause on hover
   tickerWrapper.addEventListener("mouseenter", () => {
     if (!isPaused) {
       tickerWrapper.classList.add("hover-paused");

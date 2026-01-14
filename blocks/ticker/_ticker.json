@@ -9,29 +9,7 @@
             "resourceType": "core/franklin/components/block/v1/block",
             "template": {
               "name": "Ticker",
-              "model": "ticker",
-              "filter": "ticker",
-              "item1": {
-                "sling:resourceType": "core/franklin/components/block/v1/block/item",
-                "name": "Ticker Item",
-                "model": "ticker-item",
-                "text": "Sample announcement text - click to edit"
-              }
-            }
-          }
-        }
-      }
-    },
-    {
-      "title": "Ticker Item",
-      "id": "ticker-item",
-      "plugins": {
-        "xwalk": {
-          "page": {
-            "resourceType": "core/franklin/components/block/v1/block/item",
-            "template": {
-              "name": "Ticker Item",
-              "model": "ticker-item"
+              "model": "ticker"
             }
           }
         }
@@ -42,6 +20,13 @@
     {
       "id": "ticker",
       "fields": [
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "text",
+          "label": "Ticker Text",
+          "description": "The scrolling announcement text"
+        },
         {
           "component": "number",
           "valueType": "number",
@@ -58,23 +43,7 @@
           "value": true
         }
       ]
-    },
-    {
-      "id": "ticker-item",
-      "fields": [
-        {
-          "component": "text",
-          "name": "text",
-          "label": "Ticker Text",
-          "valueType": "string"
-        }
-      ]
     }
   ],
-  "filters": [
-    {
-      "id": "ticker",
-      "components": ["ticker-item"]
-    }
-  ]
+  "filters": []
 }

@@ -28,6 +28,7 @@
     animation: ticker-scroll 30s linear infinite;
     white-space: nowrap;
     will-change: transform;
+    padding-right: 50px;
 }
 
 .ticker-track-clone {
@@ -54,57 +55,16 @@
 .ticker-item {
     display: flex;
     align-items: center;
-    padding: 0 30px;
+    padding: 0 50px;
     flex-shrink: 0;
 }
 
-/* Separator between items */
-.ticker-item::after {
-    content: "";
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    background: #ffc72c;
-    border-radius: 50%;
-    margin-left: 30px;
-    flex-shrink: 0;
-}
-
-.ticker-item:last-child::after {
-    display: none;
-}
-
-/* Content inside ticker item */
-.ticker-content {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.ticker-content p {
-    margin: 0;
+/* Ticker text */
+.ticker-text {
     font-size: 13px;
     font-weight: 400;
     line-height: 1.4;
     color: #fff;
-}
-
-.ticker-content a {
-    color: #ffc72c;
-    text-decoration: underline;
-    font-weight: 500;
-    transition: color 0.2s;
-}
-
-.ticker-content a:hover {
-    color: #fff;
-}
-
-/* Alert/Important styling */
-.ticker-content strong,
-.ticker-content b {
-    color: #ffc72c;
-    font-weight: 600;
 }
 
 /* Controls section */
@@ -162,16 +122,12 @@
         padding: 0 10px;
     }
 
-    .ticker-content p {
+    .ticker-text {
         font-size: 12px;
     }
 
     .ticker-item {
-        padding: 0 20px;
-    }
-
-    .ticker-item::after {
-        margin-left: 20px;
+        padding: 0 30px;
     }
 }
 
@@ -180,7 +136,7 @@
         animation-duration: 20s;
     }
 
-    .ticker-content p {
+    .ticker-text {
         font-size: 11px;
     }
 
