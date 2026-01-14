@@ -1,0 +1,196 @@
+/* Ticker Block Styles */
+
+/* Main ticker container */
+.ticker {
+    display: flex;
+    align-items: center;
+    background: #005baa;
+    color: #fff;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+
+/* Ticker wrapper containing the scrolling content */
+.ticker-wrapper {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    height: 40px;
+    align-items: center;
+}
+
+/* Ticker track - the moving element */
+.ticker-track {
+    display: flex;
+    align-items: center;
+    animation: ticker-scroll 30s linear infinite;
+    white-space: nowrap;
+    will-change: transform;
+}
+
+.ticker-track-clone {
+    animation: ticker-scroll 30s linear infinite;
+}
+
+/* Pause states */
+.ticker-wrapper.paused .ticker-track,
+.ticker-wrapper.hover-paused .ticker-track {
+    animation-play-state: paused;
+}
+
+/* Ticker animation */
+@keyframes ticker-scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* Individual ticker item */
+.ticker-item {
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
+    flex-shrink: 0;
+}
+
+/* Separator between items */
+.ticker-item::after {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: #ffc72c;
+    border-radius: 50%;
+    margin-left: 30px;
+    flex-shrink: 0;
+}
+
+.ticker-item:last-child::after {
+    display: none;
+}
+
+/* Content inside ticker item */
+.ticker-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ticker-content p {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #fff;
+}
+
+.ticker-content a {
+    color: #ffc72c;
+    text-decoration: underline;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.ticker-content a:hover {
+    color: #fff;
+}
+
+/* Alert/Important styling */
+.ticker-content strong,
+.ticker-content b {
+    color: #ffc72c;
+    font-weight: 600;
+}
+
+/* Controls section */
+.ticker-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 15px;
+    background: #004a8c;
+    height: 40px;
+    flex-shrink: 0;
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Pause/Play button */
+.ticker-pause-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+    padding: 0;
+}
+
+.ticker-pause-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+.ticker-pause-btn:active {
+    transform: scale(0.95);
+}
+
+.ticker-icon-pause,
+.ticker-icon-play {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .ticker-wrapper {
+        height: 36px;
+    }
+
+    .ticker-controls {
+        height: 36px;
+        padding: 0 10px;
+    }
+
+    .ticker-content p {
+        font-size: 12px;
+    }
+
+    .ticker-item {
+        padding: 0 20px;
+    }
+
+    .ticker-item::after {
+        margin-left: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .ticker-track {
+        animation-duration: 20s;
+    }
+
+    .ticker-content p {
+        font-size: 11px;
+    }
+
+    .ticker-pause-btn {
+        width: 24px;
+        height: 24px;
+    }
+
+    .ticker-pause-btn svg {
+        width: 12px;
+        height: 12px;
+    }
+}

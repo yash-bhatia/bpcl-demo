@@ -4964,5 +4964,52 @@
         ]
       }
     ]
+  },
+  {
+    "id": "ticker",
+    "fields": [
+      {
+        "component": "number",
+        "valueType": "number",
+        "name": "speed",
+        "label": "Scroll Speed (seconds)",
+        "description": "Duration for one complete scroll cycle",
+        "value": 30
+      },
+      {
+        "component": "boolean",
+        "valueType": "boolean",
+        "name": "pauseOnHover",
+        "label": "Pause on Hover",
+        "value": true
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "backgroundColor",
+        "label": "Background Color",
+        "value": "#005baa"
+      }
+    ]
+  },
+  {
+    "id": "ticker-item",
+    "fields": [
+      {
+        "component": "richtext",
+        "name": "content",
+        "label": "Ticker Content",
+        "description": "The scrolling announcement text. Use links for clickable items.",
+        "valueType": "string"
+      },
+      {
+        "component": "boolean",
+        "valueType": "boolean",
+        "name": "isAlert",
+        "label": "Is Alert/Important",
+        "description": "Mark as important to highlight the text",
+        "value": false
+      }
+    ]
   }
 ]
