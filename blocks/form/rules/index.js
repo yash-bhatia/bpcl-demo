@@ -18,7 +18,7 @@
  * Adobe permits you to use and modify this file solely in accordance with
  * the terms of the Adobe license agreement accompanying it.
  ************************************************************************ */
-import { submitSuccess, submitFailure } from '../submit.js';
+import { submitSuccess, submitFailure } from "../submit.js";
 import {
   createHelpText,
   createLabel,
@@ -27,39 +27,44 @@ import {
   createDropdownUsingEnum,
   createRadioOrCheckboxUsingEnum,
   fetchData,
-} from '../util.js';
-import registerCustomFunctions from './functionRegistration.js';
-import { LOG_LEVEL } from '../constant.js';
-import { createOptimizedPicture } from '../../../scripts/aem.js';
+} from "../util.js";
+import registerCustomFunctions from "./functionRegistration.js";
+import { LOG_LEVEL } from "../constant.js";
+import { createOptimizedPicture } from "../../../scripts/aem.js";
 
 const formSubscriptions = {};
 const formModels = {};
 const renderPromises = {};
 
 function disableElement(el, value) {
-  el.toggleAttribute('disabled', value === true);
-  el.toggleAttribute('aria-readonly', value === true);
+  el.toggleAttribute("disabled", value === true);
+  el.toggleAttribute("aria-readonly", value === true);
 }
 
 function compare(fieldVal, htmlVal, type) {
-  if (type === 'number') {
+  if (type === "number") {
     return fieldVal === Number(htmlVal);
   }
-  if (type === 'boolean') {
+  if (type === "boolean") {
     return fieldVal?.toString() === htmlVal;
   }
   return fieldVal === htmlVal;
 }
 
 function handleActiveChild(id, form) {
-  form.querySelectorAll('[data-active="true"]').forEach((ele) => ele.removeAttribute('data-active'));
+  form
+    .querySelectorAll('[data-active="true"]')
+    .forEach((ele) => ele.removeAttribute("data-active"));
   const field = form.querySelector(`#${id}`);
   if (field) {
-    field.closest('.field-wrapper').dataset.active = true;
+    field.closest(".field-wrapper").dataset.active = true;
     field.focus();
     // prevent scroll into view when user clicks on a field.
-    if (document.activeElement !== field && !field.contains(document.activeElement)) {
-      field.scrollIntoView({ behavior: 'smooth' });
+    if (
+      document.activeElement !== field &&
+      !field.contains(document.activeElement)
+    ) {
+      field.scrollIntoView({ behavior: "smooth" });
     }
   }
 }
@@ -67,14 +72,25 @@ function handleActiveChild(id, form) {
 async function fieldChanged(payload, form, generateFormRendition) {
   const { changes, field: fieldModel } = payload;
   const {
-    id, name, fieldType, ':type': componentType, readOnly, type, displayValue, displayFormat, displayValueExpression,
-    activeChild, qualifiedName,
+    id,
+    name,
+    fieldType,
+    ":type": componentType,
+    readOnly,
+    type,
+    displayValue,
+    displayFormat,
+    displayValueExpression,
+    activeChild,
+    qualifiedName,
   } = fieldModel;
   const field = form.querySelector(`#${id}`);
   if (!field) {
     // Check if there's a pending render promise where qualifiedName is a substring
     if (qualifiedName) {
-      const matchingKey = Object.keys(renderPromises).find((key) => qualifiedName.includes(key));
+      const matchingKey = Object.keys(renderPromises).find((key) =>
+        qualifiedName.includes(key)
+      );
       if (matchingKey) {
         await renderPromises[matchingKey];
         // Clear the promise after it's resolved
@@ -85,107 +101,126 @@ async function fieldChanged(payload, form, generateFormRendition) {
     }
     return;
   }
-  const fieldWrapper = field?.closest('.field-wrapper');
+  const fieldWrapper = field?.closest(".field-wrapper");
   changes.forEach((change) => {
     const { propertyName, currentValue, prevValue } = change;
     switch (propertyName) {
-      case 'required':
+      case "required":
         if (currentValue === true) {
-          fieldWrapper.dataset.required = '';
+          fieldWrapper.dataset.required = "";
         } else {
-          fieldWrapper.removeAttribute('data-required');
+          fieldWrapper.removeAttribute("data-required");
         }
         break;
-      case 'validationMessage':
+      case "validationMessage":
         {
           const { validity } = payload.field;
-          if (field.setCustomValidity
-            && (validity?.expressionMismatch || validity?.customConstraint)) {
+          if (
+            field.setCustomValidity &&
+            (validity?.expressionMismatch || validity?.customConstraint)
+          ) {
             field.setCustomValidity(currentValue);
             updateOrCreateInvalidMsg(field, currentValue);
           }
         }
         break;
-      case 'value':
+      case "value":
         // Handle undefined currentValue to prevent "undefined" appearing in form fields
         // eslint-disable-next-line no-case-declarations
-        const valueToSet = currentValue === undefined ? '' : currentValue;
+        const valueToSet = currentValue === undefined ? "" : currentValue;
 
-        if (['number', 'date', 'text', 'email'].includes(field.type) && (displayFormat || displayValueExpression)) {
-          field.setAttribute('edit-value', valueToSet);
-          field.setAttribute('display-value', displayValue);
+        if (
+          ["number", "date", "text", "email"].includes(field.type) &&
+          (displayFormat || displayValueExpression)
+        ) {
+          field.setAttribute("edit-value", valueToSet);
+          field.setAttribute("display-value", displayValue);
           if (document.activeElement !== field) {
             field.value = displayValue;
           }
-        } else if (fieldType === 'radio-group' || fieldType === 'checkbox-group') {
+        } else if (
+          fieldType === "radio-group" ||
+          fieldType === "checkbox-group"
+        ) {
           field.querySelectorAll(`input[name=${id}_${name}]`).forEach((el) => {
-            const exists = (Array.isArray(valueToSet)
-              && valueToSet.some((x) => compare(x, el.value, type.replace('[]', ''))))
-              || compare(valueToSet, el.value, type);
+            const exists =
+              (Array.isArray(valueToSet) &&
+                valueToSet.some((x) =>
+                  compare(x, el.value, type.replace("[]", ""))
+                )) ||
+              compare(valueToSet, el.value, type);
             el.checked = exists;
           });
-        } else if (fieldType === 'checkbox') {
+        } else if (fieldType === "checkbox") {
           field.checked = compare(valueToSet, field.value, type);
-        } else if (fieldType === 'plain-text') {
+        } else if (fieldType === "plain-text") {
           field.innerHTML = valueToSet;
-        } else if (fieldType === 'image') {
-          const altText = field?.querySelector('img')?.alt || '';
-          field.querySelector('picture')?.replaceWith(createOptimizedPicture(valueToSet, altText));
-        } else if (field.type !== 'file') {
+        } else if (fieldType === "image") {
+          const altText = field?.querySelector("img")?.alt || "";
+          field
+            .querySelector("picture")
+            ?.replaceWith(createOptimizedPicture(valueToSet, altText));
+        } else if (field.type !== "file") {
           field.value = valueToSet;
         }
         break;
-      case 'visible':
+      case "visible":
         fieldWrapper.dataset.visible = currentValue;
-        if (fieldType === 'panel' && fieldWrapper.querySelector('dialog')) {
-          const dialog = fieldWrapper.querySelector('dialog');
+        if (fieldType === "panel" && fieldWrapper.querySelector("dialog")) {
+          const dialog = fieldWrapper.querySelector("dialog");
           if (currentValue === false && dialog.open) {
             dialog.close(); // close triggers the event listener that removes the dialog overlay
           }
         }
         break;
-      case 'enabled':
+      case "enabled":
         // If checkboxgroup/radiogroup/drop-down is readOnly then it should remain disabled.
-        if (fieldType === 'radio-group' || fieldType === 'checkbox-group') {
+        if (fieldType === "radio-group" || fieldType === "checkbox-group") {
           if (readOnly === false) {
-            field.querySelectorAll(`input[name=${id}_${name}]`).forEach((el) => {
-              disableElement(el, !currentValue);
-            });
+            field
+              .querySelectorAll(`input[name=${id}_${name}]`)
+              .forEach((el) => {
+                disableElement(el, !currentValue);
+              });
           }
-        } else if (fieldType === 'drop-down') {
+        } else if (fieldType === "drop-down") {
           if (readOnly === false) {
             disableElement(field, !currentValue);
           }
-        } else if (componentType === 'rating') {
+        } else if (componentType === "rating") {
           if (readOnly === false) {
-            fieldWrapper.querySelector('.rating')?.classList.toggle('disabled', !currentValue);
+            fieldWrapper
+              .querySelector(".rating")
+              ?.classList.toggle("disabled", !currentValue);
           }
         } else {
-          field.toggleAttribute('disabled', currentValue === false);
+          field.toggleAttribute("disabled", currentValue === false);
         }
         break;
-      case 'readOnly':
-        if (fieldType === 'radio-group' || fieldType === 'checkbox-group') {
+      case "readOnly":
+        if (fieldType === "radio-group" || fieldType === "checkbox-group") {
           field.querySelectorAll(`input[name=${id}_${name}]`).forEach((el) => {
             disableElement(el, currentValue);
           });
-        } else if (fieldType === 'drop-down') {
+        } else if (fieldType === "drop-down") {
           disableElement(field, currentValue);
-        } else if (componentType === 'rating') {
-          fieldWrapper.querySelector('.rating')?.classList.toggle('disabled', currentValue === true);
+        } else if (componentType === "rating") {
+          fieldWrapper
+            .querySelector(".rating")
+            ?.classList.toggle("disabled", currentValue === true);
         } else {
-          field.toggleAttribute('disabled', currentValue === true);
+          field.toggleAttribute("disabled", currentValue === true);
         }
         break;
-      case 'label':
+      case "label":
         if (fieldWrapper) {
-          let labelEl = fieldWrapper.querySelector('.field-label');
+          let labelEl = fieldWrapper.querySelector(".field-label");
           if (labelEl) {
             labelEl.textContent = currentValue.value;
-            labelEl.setAttribute('data-visible', currentValue.visible);
-          } else if (fieldType === 'button') {
+            labelEl.setAttribute("data-visible", currentValue.visible);
+          } else if (fieldType === "button") {
             field.textContent = currentValue.value;
-          } else if (currentValue.value !== '') {
+          } else if (currentValue.value !== "") {
             labelEl = createLabel({
               id,
               label: currentValue,
@@ -194,12 +229,12 @@ async function fieldChanged(payload, form, generateFormRendition) {
           }
         }
         break;
-      case 'description':
+      case "description":
         if (fieldWrapper) {
-          let descriptionEl = fieldWrapper.querySelector('.field-description');
+          let descriptionEl = fieldWrapper.querySelector(".field-description");
           if (descriptionEl) {
             descriptionEl.innerHTML = currentValue;
-          } else if (currentValue !== '') {
+          } else if (currentValue !== "") {
             descriptionEl = createHelpText({
               id,
               description: currentValue,
@@ -208,30 +243,35 @@ async function fieldChanged(payload, form, generateFormRendition) {
           }
         }
         break;
-      case 'items':
+      case "items":
         if (currentValue === null) {
           const removeId = prevValue.id;
           field?.querySelector(`#${removeId}`)?.remove();
         } else {
-          const promise = generateFormRendition({ items: [currentValue] }, field?.querySelector('.repeat-wrapper'), form.dataset?.id);
+          const promise = generateFormRendition(
+            { items: [currentValue] },
+            field?.querySelector(".repeat-wrapper"),
+            form.dataset?.id
+          );
           renderPromises[currentValue?.qualifiedName] = promise;
         }
         break;
-      case 'activeChild': handleActiveChild(activeChild, form);
+      case "activeChild":
+        handleActiveChild(activeChild, form);
         break;
-      case 'valid':
+      case "valid":
         if (currentValue === true) {
-          updateOrCreateInvalidMsg(field, '');
+          updateOrCreateInvalidMsg(field, "");
           if (field.validity?.customError) {
-            field?.setCustomValidity('');
+            field?.setCustomValidity("");
           }
         }
         break;
-      case 'enum':
-      case 'enumNames':
-        if (fieldType === 'radio-group' || fieldType === 'checkbox-group') {
+      case "enum":
+      case "enumNames":
+        if (fieldType === "radio-group" || fieldType === "checkbox-group") {
           createRadioOrCheckboxUsingEnum(fieldModel, field);
-        } else if (fieldType === 'drop-down') {
+        } else if (fieldType === "drop-down") {
           createDropdownUsingEnum(fieldModel, field);
         }
         break;
@@ -246,7 +286,8 @@ function formChanged(payload, form) {
   changes.forEach((change) => {
     const { propertyName, currentValue } = change;
     switch (propertyName) {
-      case 'activeChild': handleActiveChild(currentValue?.id, form);
+      case "activeChild":
+        handleActiveChild(currentValue?.id, form);
         break;
       default:
         break;
@@ -256,32 +297,40 @@ function formChanged(payload, form) {
 
 function handleRuleEngineEvent(e, form, generateFormRendition) {
   const { type, payload } = e;
-  if (type === 'fieldChanged') {
+  if (type === "fieldChanged") {
     fieldChanged(payload, form, generateFormRendition);
-  } else if (type === 'change') {
+  } else if (type === "change") {
     formChanged(payload, form);
-  } else if (type === 'submitSuccess') {
+  } else if (type === "submitSuccess") {
     submitSuccess(e, form);
-  } else if (type === 'submitFailure') {
+  } else if (type === "submitFailure") {
     submitFailure(e, form);
   }
 }
 
 function applyRuleEngine(htmlForm, form, captcha) {
-  htmlForm.addEventListener('change', (e) => {
+  htmlForm.addEventListener("change", (e) => {
     const field = e.target;
     const { value, name, checked } = field;
-    const { id } = field.closest('.field-wrapper').dataset;
-    if ((field.type === 'checkbox' && field.dataset.fieldType === 'checkbox-group')) {
+    const { id } = field.closest(".field-wrapper").dataset;
+    if (
+      field.type === "checkbox" &&
+      field.dataset.fieldType === "checkbox-group"
+    ) {
       const val = getCheckboxGroupValue(name, htmlForm);
       const el = form.getElement(id);
       el.value = val;
-    } else if ((field.type === 'radio' && field.dataset.fieldType === 'radio-group')) {
+    } else if (
+      field.type === "radio" &&
+      field.dataset.fieldType === "radio-group"
+    ) {
       const el = form.getElement(id);
       el.value = value;
-    } else if (field.type === 'checkbox') {
-      form.getElement(id).value = checked ? value : field.dataset.uncheckedValue;
-    } else if (field.type === 'file') {
+    } else if (field.type === "checkbox") {
+      form.getElement(id).value = checked
+        ? value
+        : field.dataset.uncheckedValue;
+    } else if (field.type === "file") {
       form.getElement(id).value = Array.from(e?.detail?.files || field.files);
     } else {
       form.getElement(id).value = value;
@@ -289,31 +338,52 @@ function applyRuleEngine(htmlForm, form, captcha) {
     // console.log(JSON.stringify(form.exportData(), null, 2));
   });
 
-  htmlForm.addEventListener('focusin', (e) => {
+  htmlForm.addEventListener("focusin", (e) => {
     const field = e.target;
     let { id } = field;
-    if (['radio', 'checkbox'].includes(field?.type)) {
-      id = field.closest('.field-wrapper').dataset.id;
+    if (["radio", "checkbox"].includes(field?.type)) {
+      id = field.closest(".field-wrapper").dataset.id;
     }
     form.getElement(id)?.focus();
   });
 
-  htmlForm.addEventListener('click', async (e) => {
-    if (e.target.tagName === 'BUTTON') {
-      const element = form.getElement(e.target.id);
-      if (e.target.type === 'submit' && captcha) {
-        const token = await captcha.getToken();
-        form.getElement(captcha.id).value = token;
+  htmlForm.addEventListener("click", async (e) => {
+    const button = e.target.closest("button");
+    if (button) {
+      // For submit button, validate and redirect directly
+      if (button.type === "submit") {
+        e.preventDefault();
+        e.stopPropagation();
+        const valid = htmlForm.checkValidity();
+        if (valid) {
+          window.location.href =
+            "/index/form-page/forms-submission-confirmation";
+          return;
+        }
+        // Show validation errors
+        const firstInvalidEl = htmlForm.querySelector(":invalid:not(fieldset)");
+        if (firstInvalidEl) {
+          firstInvalidEl.focus();
+          firstInvalidEl.scrollIntoView({ behavior: "smooth" });
+        }
+        return;
       }
+      const element = form.getElement(button.id);
       if (element) {
-        element.dispatch({ type: 'click' });
+        element.dispatch({ type: "click" });
       }
     }
   });
 }
 
-export async function loadRuleEngine(formDef, htmlForm, captcha, genFormRendition, data) {
-  const ruleEngine = await import('./model/afb-runtime.js');
+export async function loadRuleEngine(
+  formDef,
+  htmlForm,
+  captcha,
+  genFormRendition,
+  data
+) {
+  const ruleEngine = await import("./model/afb-runtime.js");
   const form = ruleEngine.restoreFormInstance(formDef, data);
   window.myForm = form;
   formModels[htmlForm.dataset?.id] = form;
@@ -321,87 +391,100 @@ export async function loadRuleEngine(formDef, htmlForm, captcha, genFormRenditio
   subscriptions?.forEach((subscription, id) => {
     const { callback, fieldDiv } = subscription;
     const model = form.getElement(id);
-    callback(fieldDiv, model, 'register');
+    callback(fieldDiv, model, "register");
   });
 
   form.subscribe((e) => {
     handleRuleEngineEvent(e, htmlForm, genFormRendition);
-  }, 'fieldChanged');
+  }, "fieldChanged");
 
   form.subscribe((e) => {
     handleRuleEngineEvent(e, htmlForm, genFormRendition);
-  }, 'change');
+  }, "change");
 
   form.subscribe((e) => {
     handleRuleEngineEvent(e, htmlForm);
-  }, 'submitSuccess');
+  }, "submitSuccess");
 
   form.subscribe((e) => {
     handleRuleEngineEvent(e, htmlForm);
-  }, 'submitFailure');
+  }, "submitFailure");
 
   form.subscribe((e) => {
     handleRuleEngineEvent(e, htmlForm);
-  }, 'submitError');
+  }, "submitError");
   applyRuleEngine(htmlForm, form, captcha);
 }
 
 async function initializeRuleEngineWorker(formDef, renderHTMLForm) {
-  if (typeof Worker === 'undefined') {
-    const data = await fetchData(formDef?.id, window.location.search || '');
-    const ruleEngine = await import('./model/afb-runtime.js');
-    const form = ruleEngine.createFormInstance({ ...formDef, data }, undefined, LOG_LEVEL);
+  if (typeof Worker === "undefined") {
+    const data = await fetchData(formDef?.id, window.location.search || "");
+    const ruleEngine = await import("./model/afb-runtime.js");
+    const form = ruleEngine.createFormInstance(
+      { ...formDef, data },
+      undefined,
+      LOG_LEVEL
+    );
     return renderHTMLForm(form.getState(true), data);
   }
-  const myWorker = new Worker(`${window.hlx.codeBasePath}/blocks/form/rules/RuleEngineWorker.js`, { type: 'module' });
+  const myWorker = new Worker(
+    `${window.hlx.codeBasePath}/blocks/form/rules/RuleEngineWorker.js`,
+    { type: "module" }
+  );
   // Trigger the worker to start form initialization
   myWorker.postMessage({
-    name: 'init',
+    name: "init",
     payload: {
       ...formDef,
-      search: window.location.search || '',
+      search: window.location.search || "",
     },
     codeBasePath: window.hlx.codeBasePath,
   });
 
   return new Promise((resolve) => {
-    let form,
-      captcha,
-      data,
-      generateFormRendition;
-    myWorker.addEventListener('message', async (e) => {
+    let form, captcha, data, generateFormRendition;
+    myWorker.addEventListener("message", async (e) => {
       // main thread starts html rendering
-      if (e.data.name === 'init') {
+      if (e.data.name === "init") {
         const response = await renderHTMLForm(e.data.payload);
         form = response.form;
         captcha = response.captcha;
         data = response.data;
         generateFormRendition = response.generateFormRendition;
-        form?.classList.add('loading');
+        form?.classList.add("loading");
         // informing the worker that html form rendition is complete
         myWorker.postMessage({
-          name: 'decorated',
+          name: "decorated",
         });
         resolve(response);
       }
 
-      if (e.data.name === 'restore') {
-        loadRuleEngine(e.data.payload, form, captcha, generateFormRendition, data);
+      if (e.data.name === "restore") {
+        loadRuleEngine(
+          e.data.payload,
+          form,
+          captcha,
+          generateFormRendition,
+          data
+        );
       }
 
-      if (e.data.name === 'fieldChanged') {
+      if (e.data.name === "fieldChanged") {
         await fieldChanged(e.data.payload, form, generateFormRendition);
       }
 
-      if (e.data.name === 'sync-complete') {
-        form?.classList.remove('loading');
+      if (e.data.name === "sync-complete") {
+        form?.classList.remove("loading");
       }
     });
   });
 }
 
 export async function initAdaptiveForm(formDef, createForm) {
-  await registerCustomFunctions(formDef?.properties?.customFunctionsPath || '/blocks/form/functions.js', window.hlx?.codeBasePath);
+  await registerCustomFunctions(
+    formDef?.properties?.customFunctionsPath || "/blocks/form/functions.js",
+    window.hlx?.codeBasePath
+  );
   const response = await initializeRuleEngineWorker(formDef, createForm);
   return response?.form;
 }
@@ -424,7 +507,7 @@ export function subscribe(fieldDiv, formId, callback) {
     //  the subscribe callback is triggered after form is initialised
     if (formModels[formId]) {
       const form = formModels[formId];
-      callback(fieldDiv, form.getElement(fieldDiv?.dataset?.id), 'register');
+      callback(fieldDiv, form.getElement(fieldDiv?.dataset?.id), "register");
     }
     // Add the new subscription to the existing map
     subscriptions.set(fieldDiv?.dataset?.id, { callback, fieldDiv });

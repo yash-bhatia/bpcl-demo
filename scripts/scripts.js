@@ -10,7 +10,7 @@ import {
   loadSection,
   loadSections,
   loadCSS,
-} from './aem.js';
+} from "./aem.js";
 
 /**
  * Moves all the attributes from a given elmenet to another given element.
@@ -42,7 +42,10 @@ export function moveInstrumentation(from, to) {
     to,
     [...from.attributes]
       .map(({ nodeName }) => nodeName)
-      .filter((attr) => attr.startsWith('data-aue-') || attr.startsWith('data-richtext-')),
+      .filter(
+        (attr) =>
+          attr.startsWith("data-aue-") || attr.startsWith("data-richtext-")
+      )
   );
 }
 
@@ -52,7 +55,8 @@ export function moveInstrumentation(from, to) {
 async function loadFonts() {
   await loadCSS(`${window.hlx.codeBasePath}/styles/fonts.css`);
   try {
-    if (!window.location.hostname.includes('localhost')) sessionStorage.setItem('fonts-loaded', 'true');
+    if (!window.location.hostname.includes("localhost"))
+      sessionStorage.setItem("fonts-loaded", "true");
   } catch (e) {
     // do nothing
   }
@@ -67,7 +71,7 @@ function buildAutoBlocks() {
     // TODO: add auto block, if needed
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.error('Auto Blocking failed', error);
+    console.error("Auto Blocking failed", error);
   }
 }
 
@@ -90,18 +94,18 @@ export function decorateMain(main) {
  * @param {Element} doc The container element
  */
 async function loadEager(doc) {
-  document.documentElement.lang = 'en';
+  document.documentElement.lang = "en";
   decorateTemplateAndTheme();
-  const main = doc.querySelector('main');
+  const main = doc.querySelector("main");
   if (main) {
     decorateMain(main);
-    document.body.classList.add('appear');
-    await loadSection(main.querySelector('.section'), waitForFirstImage);
+    document.body.classList.add("appear");
+    await loadSection(main.querySelector(".section"), waitForFirstImage);
   }
 
   try {
     /* if desktop (proxy for fast connection) or fonts already loaded, load fonts.css */
-    if (window.innerWidth >= 900 || sessionStorage.getItem('fonts-loaded')) {
+    if (window.innerWidth >= 900 || sessionStorage.getItem("fonts-loaded")) {
       loadFonts();
     }
   } catch (e) {
@@ -114,15 +118,15 @@ async function loadEager(doc) {
  * @param {Element} doc The container element
  */
 async function loadLazy(doc) {
-  const main = doc.querySelector('main');
+  const main = doc.querySelector("main");
   await loadSections(main);
 
   const { hash } = window.location;
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
   if (hash && element) element.scrollIntoView();
 
-  loadHeader(doc.querySelector('header'));
-  loadFooter(doc.querySelector('footer'));
+  loadHeader(doc.querySelector("header"));
+  loadFooter(doc.querySelector("footer"));
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();
@@ -134,7 +138,7 @@ async function loadLazy(doc) {
  */
 function loadDelayed() {
   // eslint-disable-next-line import/no-cycle
-  window.setTimeout(() => import('./delayed.js'), 3000);
+  window.setTimeout(() => import("./delayed.js"), 3000);
   // load anything that can be postponed to the latest here
 }
 
@@ -143,5 +147,43 @@ async function loadPage() {
   await loadLazy(document);
   loadDelayed();
 }
+
+// Wait for submit button and attach direct click handler
+const waitForSubmitButton = setInterval(() => {
+  const button = document.querySelector("#submit-18bcc32482");
+  if (button) {
+    clearInterval(waitForSubmitButton);
+    console.log("Submit button found:", button);
+    button.addEventListener(
+      "click",
+      (e) => {
+        console.log("Submit button clicked!");
+        e.preventDefault();
+        e.stopPropagation();
+        const form = button.closest("form");
+        if (form) {
+          const invalidFields = form.querySelectorAll(
+            ":invalid:not(fieldset):not(form)"
+          );
+          console.log("Invalid fields count:", invalidFields.length);
+
+          if (invalidFields.length === 0) {
+            // All fields valid - redirect
+            window.location.href =
+              "/index/form-page/forms-submission-confirmation";
+          } else {
+            // Trigger validation UI to show error messages
+            form.reportValidity();
+            // Dispatch invalid event on each field to trigger custom error display
+            invalidFields.forEach((field) => {
+              field.dispatchEvent(new Event("invalid", { bubbles: true }));
+            });
+          }
+        }
+      },
+      true
+    ); // Use capture phase
+  }
+}, 500);
 
 loadPage();
