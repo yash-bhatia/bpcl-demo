@@ -333,3 +333,108 @@ main .section.highlight {
     display: block;
     width: 100%;
 }
+
+/* Carousel section - position explore button at bottom center */
+.section.carousel-container {
+    position: relative;
+}
+
+.section.carousel-container > .default-content-wrapper {
+    position: relative;
+    padding: 0;
+    text-align: center;
+}
+
+/* Position only the button at bottom of carousel */
+.section.carousel-container > .default-content-wrapper .button-container {
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    margin: 0;
+}
+
+.section.carousel-container > .default-content-wrapper .button {
+    background: #ffc72c;
+    color: #003366;
+    padding: 12px 40px;
+    border-radius: 25px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.section.carousel-container > .default-content-wrapper .button:hover {
+    background: #e6b326;
+}
+
+/* Smart Companion Section - Blue border box style */
+.section:has(#a-smart-companion-for-every-mile-you-travel) {
+    border: 1px solid #0072af;
+    border-radius: 8px;
+    padding: 30px 50px;
+    margin: 60px auto 30px;
+    max-width: 1200px;
+    text-align: center;
+}
+
+.section:has(#a-smart-companion-for-every-mile-you-travel) h1 {
+    color: #0072af;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.section:has(#a-smart-companion-for-every-mile-you-travel) p {
+    color: #333;
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.section:has(#a-smart-companion-for-every-mile-you-travel) p strong {
+    font-weight: 400;
+}
+
+/* OUR OFFERINGS heading - normal flow below carousel */
+.section.carousel-container > .default-content-wrapper h1#our-offerings {
+    position: relative;
+    display: block;
+    margin: 30px auto 25px;
+    color: #2d6a8e;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+/* Section with multiple images - full width */
+.section .default-content-wrapper p picture {
+    display: block;
+    width: 100%;
+}
+
+.section .default-content-wrapper p picture img {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Mechanic Form Heading - Same style as Our Offerings */
+#mechanic-form-for-acquisition {
+    color: #2d6a8e;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin: 60px auto 25px;
+    padding: 0;
+    font-family: var(--heading-font-family);
+    display: block;
+    width: 100%;
+}
