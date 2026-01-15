@@ -369,6 +369,30 @@ main .section.highlight {
     background: #e6b326;
 }
 
+/* Thank You / Confirmation Page Styling */
+.section:has(#thank-you-you-are-now-part-of-bpcls-trusted-mechanic-network) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.section:has(#thank-you-you-are-now-part-of-bpcls-trusted-mechanic-network)
+    .default-content-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.section:has(#thank-you-you-are-now-part-of-bpcls-trusted-mechanic-network) h1 {
+    color: #0072af;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 0;
+}
+
 /* Smart Companion Section - Blue border box style */
 .section:has(#a-smart-companion-for-every-mile-you-travel) {
     border: 1px solid #0072af;
