@@ -161,17 +161,6 @@
     ]
   },
   {
-    "id": "carousel",
-    "fields": [
-      {
-        "component": "reference",
-        "valueType": "string",
-        "name": "card",
-        "value": ""
-      }
-    ]
-  },
-  {
     "id": "columns",
     "fields": [
       {
