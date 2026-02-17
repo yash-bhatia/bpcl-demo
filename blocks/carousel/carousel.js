@@ -65,10 +65,13 @@ class Carousel {
   }
 
   buildCarousel() {
-    // Get all rows/items from the block - each row is a slide
-    const rows = [...this.block.children];
+    // Find all pictures in the block - handles both row-based and multi-image property structures
+    const pictures = [...this.block.querySelectorAll("picture")];
+    
+    // If no pictures found, try finding standalone images
+    const images = pictures.length === 0 ? [...this.block.querySelectorAll("img")] : [];
 
-    if (rows.length === 0) return;
+    if (pictures.length === 0 && images.length === 0) return;
 
     // Create main container
     const slidesContainer = document.createElement("div");
@@ -77,31 +80,24 @@ class Carousel {
     const slidesWrapper = document.createElement("div");
     slidesWrapper.className = "carousel-slides";
 
-    // Process each row as a slide - only include rows with images
-    let slideIndex = 0;
-    rows.forEach((row) => {
-      // Find the picture/image in the row
-      const picture = row.querySelector("picture");
-      const img = row.querySelector("img");
-
-      // Skip rows without images
-      if (!picture && !img) {
-        return;
-      }
-
+    // Process each picture as a slide
+    pictures.forEach((picture, index) => {
       const slide = document.createElement("div");
       slide.className = "carousel-slide";
-      slide.dataset.index = slideIndex;
-
-      if (picture) {
-        slide.appendChild(picture.cloneNode(true));
-      } else if (img) {
-        slide.appendChild(img.cloneNode(true));
-      }
-
+      slide.dataset.index = index;
+      slide.appendChild(picture.cloneNode(true));
       slidesWrapper.appendChild(slide);
       this.slides.push(slide);
-      slideIndex += 1;
+    });
+
+    // Process standalone images if no pictures found
+    images.forEach((img, index) => {
+      const slide = document.createElement("div");
+      slide.className = "carousel-slide";
+      slide.dataset.index = index;
+      slide.appendChild(img.cloneNode(true));
+      slidesWrapper.appendChild(slide);
+      this.slides.push(slide);
     });
 
     slidesContainer.appendChild(slidesWrapper);
