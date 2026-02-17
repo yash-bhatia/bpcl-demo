@@ -166,8 +166,8 @@
       {
         "component": "reference",
         "valueType": "string",
-        "name": "image",
-        "label": "Slide Image",
+        "name": "slideImage",
+        "label": "Image",
         "multi": false
       }
     ]
