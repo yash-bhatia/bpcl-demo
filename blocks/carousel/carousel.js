@@ -73,6 +73,14 @@ class Carousel {
 
     if (pictures.length === 0 && images.length === 0) return;
 
+    // Store original children for Universal Editor (hide them but keep in DOM)
+    const originalChildren = [...this.block.children];
+    const originalContent = document.createElement("div");
+    originalContent.className = "carousel-original-content";
+    originalChildren.forEach((child) => {
+      originalContent.appendChild(child);
+    });
+
     // Create main container
     const slidesContainer = document.createElement("div");
     slidesContainer.className = "carousel-slides-container";
@@ -102,9 +110,10 @@ class Carousel {
 
     slidesContainer.appendChild(slidesWrapper);
 
-    // Clear original content and add new structure
+    // Add both: hidden original content (for Universal Editor) + visible carousel
     this.block.textContent = "";
-    this.block.appendChild(slidesContainer);
+    this.block.appendChild(originalContent); // Hidden but in DOM for Universal Editor
+    this.block.appendChild(slidesContainer); // Visible carousel
 
     this.slidesContainer = slidesContainer;
     this.slidesWrapper = slidesWrapper;
