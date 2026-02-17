@@ -35,6 +35,10 @@
     ]
   },
   {
+    "id": "slide",
+    "components": []
+  },
+  {
     "id": "columns",
     "components": [
       "column"
