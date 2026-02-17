@@ -339,10 +339,32 @@ class Carousel {
 }
 
 /**
+ * Check if we're in Universal Editor / authoring mode
+ * @returns {boolean} True if in editing mode
+ */
+function isEditorMode() {
+  // Check for Universal Editor indicators
+  return (
+    window.location.href.includes('.html?') ||
+    document.body.classList.contains('aem-editing') ||
+    document.documentElement.classList.contains('aem-editing') ||
+    window.location.ancestorOrigins?.length > 0 ||
+    document.querySelector('meta[name="urn:auecon:aemconnection"]')
+  );
+}
+
+/**
  * Decorates the carousel block
  * @param {Element} block The carousel block element
  */
 export default function decorate(block) {
+  // Skip carousel decoration in Universal Editor to allow authoring
+  if (isEditorMode()) {
+    // Add a simple indicator that carousel will work on publish
+    block.classList.add('carousel-editing-mode');
+    return;
+  }
+  
   // eslint-disable-next-line no-new
   new Carousel(block);
 }

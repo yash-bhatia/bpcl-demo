@@ -338,3 +338,41 @@
         height: 10px;
     }
 }
+
+/* Editing Mode Styles - Shows slides stacked for easy authoring */
+.carousel.carousel-editing-mode {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    background: #f5f5f5;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+}
+
+.carousel.carousel-editing-mode::before {
+    content: "Carousel (Preview mode - slides will animate on publish)";
+    display: block;
+    padding: 8px 12px;
+    background: #005baa;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.carousel.carousel-editing-mode > div {
+    border: 1px solid #ddd;
+    padding: 10px;
+    background: white;
+    border-radius: 4px;
+}
+
+.carousel.carousel-editing-mode picture,
+.carousel.carousel-editing-mode img {
+    max-width: 100%;
+    height: auto;
+    max-height: 200px;
+    object-fit: contain;
+}
