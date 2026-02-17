@@ -14,13 +14,47 @@
           }
         }
       }
+    },
+    {
+      "title": "Carousel Image",
+      "id": "carousel-image",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "name": "Image",
+              "model": "carousel-image"
+            }
+          }
+        }
+      }
     }
   ],
-  "models": [],
+  "models": [
+    {
+      "id": "carousel-image",
+      "fields": [
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "image",
+          "label": "Image",
+          "multi": false
+        },
+        {
+          "component": "text",
+          "name": "imageAlt",
+          "label": "Alt Text",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
   "filters": [
     {
       "id": "carousel",
-      "components": ["image"]
+      "components": ["carousel-image"]
     }
   ]
 }
