@@ -161,20 +161,14 @@
     ]
   },
   {
-    "id": "carousel-image",
+    "id": "carousel",
     "fields": [
       {
         "component": "reference",
         "valueType": "string",
-        "name": "image",
-        "label": "Image",
-        "multi": false
-      },
-      {
-        "component": "text",
-        "name": "imageAlt",
-        "label": "Alt Text",
-        "valueType": "string"
+        "name": "images",
+        "label": "Carousel Images",
+        "multi": true
       }
     ]
   },

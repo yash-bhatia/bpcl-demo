@@ -29,12 +29,6 @@
     ]
   },
   {
-    "id": "carousel",
-    "components": [
-      "carousel-image"
-    ]
-  },
-  {
     "id": "columns",
     "components": [
       "column"
