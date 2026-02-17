@@ -166,9 +166,16 @@
       {
         "component": "reference",
         "valueType": "string",
-        "name": "slideImage",
+        "name": "image",
         "label": "Image",
         "multi": false
+      },
+      {
+        "component": "text",
+        "name": "altText",
+        "value": "",
+        "label": "Alt Text",
+        "valueType": "string"
       }
     ]
   },
