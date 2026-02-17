@@ -161,14 +161,14 @@
     ]
   },
   {
-    "id": "carousel",
+    "id": "slide",
     "fields": [
       {
         "component": "reference",
         "valueType": "string",
-        "name": "images",
-        "label": "Carousel Images",
-        "multi": true
+        "name": "image",
+        "label": "Slide Image",
+        "multi": false
       }
     ]
   },
