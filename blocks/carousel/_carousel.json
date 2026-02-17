@@ -13,7 +13,8 @@
               "slide1": {
                 "sling:resourceType": "core/franklin/components/block/v1/block/item",
                 "name": "Slide",
-                "model": "slide"
+                "model": "slide",
+                "image": ""
               }
             }
           }
@@ -29,7 +30,8 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "name": "Slide",
-              "model": "slide"
+              "model": "slide",
+              "image": ""
             }
           }
         }
